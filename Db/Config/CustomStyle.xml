@@ -1,0 +1,14 @@
+<code_scheme name="CustomStyle" version="173">
+  <MySQLCodeStyleSettings version="6">
+    <option name="USE_GENERAL_STYLE" value="false" />
+    <option name="KEYWORD_CASE" value="2" />
+    <option name="SET_ALIGN_EQUAL_SIGN" value="false" />
+    <option name="SELECT_ALIGN_AS" value="false" />
+    <option name="FROM_INDENT_JOIN" value="false" />
+    <option name="TABLE_TYPES_ALIGN" value="false" />
+    <option name="TABLE_DEFAULTS_ALIGN" value="false" />
+    <option name="TABLE_NULLABILITIES_ALIGN" value="false" />
+    <option name="CONSTRAINT_WRAP_1" value="false" />
+    <option name="VIEW_INDENT_QUERY" value="true" />
+  </MySQLCodeStyleSettings>
+</code_scheme>
