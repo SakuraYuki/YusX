@@ -1,6 +1,6 @@
 ## YusX
 
-![YusX](Images\icon_x200.png)
+![YusX](Images/icon_x200.png)
 
 一个基于.NET Core和Vue的前后端快速开发框架，设计思想来源于[Vue.NetCore](https://github.com/cq-panda/Vue.NetCore)
 
