@@ -448,7 +448,7 @@ CREATE TABLE IF NOT EXISTS `Sys_UserRole`
 
 INSERT INTO `Sys_UserRole` (Id, UserId, RoleId, CreateId, Creator, CreateDate, ModifyId, Modifier, ModifyDate)
 VALUES (1, 1, 1, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
-       (1, 2, 4, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL);
+       (2, 2, 4, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL);
 
 -- 日志(Sys_Log)
 -- DROP TABLE IF EXISTS `Sys_Log`;
