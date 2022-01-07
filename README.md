@@ -1,5 +1,7 @@
 ## YusX
 
+![YusX](Images\icon_x200.png)
+
 一个基于.NET Core和Vue的前后端快速开发框架，设计思想来源于[Vue.NetCore](https://github.com/cq-panda/Vue.NetCore)
 
 ## 说明
@@ -10,9 +12,9 @@
  - TODO
 
 ## 使用框架
- - 数据库ORM `SqlSugar` https://github.com/donet5/SqlSugar
- - 定时任务 `Hangfire` https://github.com/HangfireIO/Hangfire
+ - 数据库ORM [SqlSugar](https://github.com/donet5/SqlSugar)
+ - 定时任务 [Hangfire](https://github.com/HangfireIO/Hangfire)
 
 ## 相关链接
 
- - 前后台快速开发框架 `Vue.NetCore` https://github.com/cq-panda/Vue.NetCore
+ - 前后台快速开发框架 [Vue.NetCore](https://github.com/cq-panda/Vue.NetCore)
