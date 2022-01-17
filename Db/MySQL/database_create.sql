@@ -49,9 +49,7 @@ CREATE TABLE IF NOT EXISTS `Sys_Dictionary`
     `Enable` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否启用',
     `SortNo` int NOT NULL DEFAULT 0 COMMENT '排序号',
     `Remark` varchar(4000) DEFAULT NULL COMMENT '备注',
-    `Config` text DEFAULT NULL COMMENT '配置项',
     `DbSql` text DEFAULT NULL COMMENT 'SQL语句',
-    `DbServer` text DEFAULT NULL COMMENT '数据库服务',
     `CreateId` int NOT NULL COMMENT '创建人ID',
     `Creator` varchar(30) NOT NULL COMMENT '创建人',
     `CreateDate` datetime NOT NULL COMMENT '创建时间',
@@ -60,26 +58,26 @@ CREATE TABLE IF NOT EXISTS `Sys_Dictionary`
     `ModifyDate` datetime DEFAULT NULL COMMENT '修改时间'
 ) COMMENT '字典';
 
-INSERT INTO `Sys_Dictionary` (DictId, DictNo, Name, ParentId, Enable, SortNo, Remark, Config, DbSql, DbServer, CreateId, Creator, CreateDate, ModifyId, Modifier, ModifyDate)
-VALUES (1, 'CommonHas', '有无值', 0, 1, 0, NULL, NULL, NULL, NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
-       (2, 'CommonYesNo', '是否值', 0, 1, 0, NULL, NULL, NULL, NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
-       (3, 'CommonEnable', '启用状态', 0, 1, 0, NULL, NULL, NULL, NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
-       (4, 'CommonGender', '性别', 0, 1, 0, NULL, NULL, NULL, NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
-       (5, 'CommonGenderSecret', '性别(含保密)', 0, 1, 0, NULL, NULL, NULL, NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
-       (6, 'CommonExpire', '过期状态', 0, 1, 0, NULL, NULL, NULL, NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
-       (7, 'CommonAuditStatus', '审核状态', 0, 1, 0, NULL, NULL, NULL, NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
-       (8, 'CommonRoleList', '角色列表', 0, 1, 0, NULL, NULL, 'SELECT RoleId as `key`, RoleName as `value` FROM Sys_Role WHERE Enable = 1', NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
-       (9, 'CommonRoleTree', '级联角色', 0, 1, 0, NULL, NULL, 'SELECT RoleId AS `id`, parentId, RoleId AS `key`, RoleName AS `value` FROM Sys_Role WHERE Enable = 1', NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
-       (10, 'CommonProvinceList', '省份列表', 0, 1, 0, NULL, NULL, 'SELECT ProvinceCode AS `key`, ProvinceName AS `value` FROM Sys_Province', NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
-       (11, 'CommonCityList', '城市列表', 0, 1, 0, NULL, NULL, 'SELECT CityCode AS `key`, CityName AS `value` FROM Sys_City', NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
-       (12, 'CommonCountyList', '区县列表', 0, 1, 0, NULL, NULL, 'SELECT CountyCode AS `key`, CountyName AS `value` FROM Sys_County', NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
-       (100, 'SysLogLogType', '日志类型', 0, 1, 0, NULL, NULL, NULL, NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
-       (101, 'SysLogLevel', '日志级别', 0, 1, 0, NULL, NULL, NULL, NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
-       (102, 'SysApiLogResponseStatus', '接口日志响应状态', 0, 1, 0, NULL, NULL, NULL, NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
-       (103, 'SysApiLogType', '接口日志类型', 0, 1, 0, NULL, NULL, NULL, NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
-       (104, 'SysUserLogType', '用户日志类型', 0, 1, 0, NULL, NULL, NULL, NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
-       (105, 'SysTokenType', '令牌类型', 0, 1, 0, NULL, NULL, NULL, NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
-       (106, 'SysTokenCodeType', '令牌代码类型', 0, 1, 0, NULL, NULL, NULL, NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL);
+INSERT INTO `Sys_Dictionary` (DictId, DictNo, Name, ParentId, Enable, SortNo, Remark, DbSql, CreateId, Creator, CreateDate, ModifyId, Modifier, ModifyDate)
+VALUES (1, 'CommonHas', '有无值', 0, 1, 0, NULL, NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
+       (2, 'CommonYesNo', '是否值', 0, 1, 0, NULL, NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
+       (3, 'CommonEnable', '启用状态', 0, 1, 0, NULL, NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
+       (4, 'CommonGender', '性别', 0, 1, 0, NULL, NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
+       (5, 'CommonGenderSecret', '性别(含保密)', 0, 1, 0, NULL, NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
+       (6, 'CommonExpire', '过期状态', 0, 1, 0, NULL, NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
+       (7, 'CommonAuditStatus', '审核状态', 0, 1, 0, NULL, NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
+       (8, 'CommonRoleList', '角色列表', 0, 1, 0, NULL, 'SELECT RoleId as `key`, RoleName as `value` FROM Sys_Role WHERE Enable = 1', 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
+       (9, 'CommonRoleTree', '级联角色', 0, 1, 0, NULL, 'SELECT RoleId AS `id`, parentId, RoleId AS `key`, RoleName AS `value` FROM Sys_Role WHERE Enable = 1', 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
+       (10, 'CommonProvinceList', '省份列表', 0, 1, 0, NULL, 'SELECT ProvinceCode AS `key`, ProvinceName AS `value` FROM Sys_Province', 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
+       (11, 'CommonCityList', '城市列表', 0, 1, 0, NULL, 'SELECT CityCode AS `key`, CityName AS `value` FROM Sys_City', 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
+       (12, 'CommonCountyList', '区县列表', 0, 1, 0, NULL, 'SELECT CountyCode AS `key`, CountyName AS `value` FROM Sys_County', 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
+       (100, 'SysLogLogType', '日志类型', 0, 1, 0, NULL, NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
+       (101, 'SysLogLevel', '日志级别', 0, 1, 0, NULL, NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
+       (102, 'SysApiLogResponseStatus', '接口日志响应状态', 0, 1, 0, NULL, NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
+       (103, 'SysApiLogType', '接口日志类型', 0, 1, 0, NULL, NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
+       (104, 'SysUserLogType', '用户日志类型', 0, 1, 0, NULL, NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
+       (105, 'SysTokenType', '令牌类型', 0, 1, 0, NULL, NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
+       (106, 'SysTokenCodeType', '令牌代码类型', 0, 1, 0, NULL, NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL);
 
 -- 字典明细(Sys_DictionaryList)
 -- DROP TABLE IF EXISTS `Sys_DictionaryList`;
@@ -455,8 +453,8 @@ VALUES (1, 1, 1, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
 CREATE TABLE IF NOT EXISTS `Sys_Log`
 (
     `Id` int PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT 'ID',
-    `Content` text NOT NULL COMMENT '日志内容',
-    `LogType` int NOT NULL DEFAULT 0 COMMENT '日志类型',
+    `Content` text NOT NULL COMMENT '内容',
+    `Type` int NOT NULL DEFAULT 0 COMMENT '类型',
     `Level` int NOT NULL DEFAULT 0 COMMENT '级别',
     `ExceptionInfo` text DEFAULT NULL COMMENT '异常信息',
     `RecordDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP() COMMENT '记录时间',
@@ -490,7 +488,7 @@ CREATE TABLE IF NOT EXISTS `Sys_UserLog`
 (
     `Id` int PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT 'ID',
     `Type` int NOT NULL COMMENT '类型',
-    `Content` text DEFAULT NULL COMMENT '日志内容',
+    `Content` text DEFAULT NULL COMMENT '内容',
     `OldValue` varchar(500) DEFAULT NULL COMMENT '原始值',
     `NewValue` varchar(500) DEFAULT NULL COMMENT '修改值',
     `RecordDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP() COMMENT '记录时间',
