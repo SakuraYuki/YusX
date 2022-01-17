@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="5.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\YusX.Builder\YusX.Builder.csproj" />
+    <ProjectReference Include="..\YusX.Core\YusX.Core.csproj" />
+    <ProjectReference Include="..\YusX.Entity\YusX.Entity.csproj" />
+    <ProjectReference Include="..\YusX.System\YusX.System.csproj" />
+  </ItemGroup>
+
+
+</Project>
