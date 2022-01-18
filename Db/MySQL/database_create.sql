@@ -254,7 +254,7 @@ VALUES (1, '用户权限', 0, NULL, NULL, NULL, NULL, 'System', 'Yus.System', 1,
 -- DROP TABLE IF EXISTS `Sys_TableColumn`;
 CREATE TABLE IF NOT EXISTS `Sys_TableColumn`
 (
-    `ColumnId` int PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT '表格列ID',
+    `Id` int PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT 'ID',
     `TableId` int NOT NULL COMMENT '表格ID',
     `Name` varchar(100) NOT NULL COMMENT '显示名称',
     `Field` varchar(100) NOT NULL COMMENT '数据字段',
