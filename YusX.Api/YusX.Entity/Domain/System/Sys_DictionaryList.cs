@@ -67,6 +67,7 @@ namespace YusX.Entity.Domain
         [Display(Name = "是否启用")]
         [Column(TypeName = "tinyint")]
         [Editable(true)]
+        [Required(AllowEmptyStrings = false)]
         public bool Enable { get; set; }
 
         /// <summary>
@@ -75,7 +76,8 @@ namespace YusX.Entity.Domain
         [Display(Name = "排序号")]
         [Column(TypeName = "int")]
         [Editable(true)]
-        public int? SortNo { get; set; }
+        [Required(AllowEmptyStrings = false)]
+        public int SortNo { get; set; }
 
         /// <summary>
         /// 备注
@@ -91,6 +93,7 @@ namespace YusX.Entity.Domain
         /// </summary>
         [Display(Name = "创建人ID")]
         [Column(TypeName = "int")]
+        [Required(AllowEmptyStrings = false)]
         public int CreateId { get; set; }
 
         /// <summary>
@@ -107,6 +110,7 @@ namespace YusX.Entity.Domain
         /// </summary>
         [Display(Name = "创建时间")]
         [Column(TypeName = "datetime")]
+        [Required(AllowEmptyStrings = false)]
         public DateTime CreateDate { get; set; }
 
         /// <summary>

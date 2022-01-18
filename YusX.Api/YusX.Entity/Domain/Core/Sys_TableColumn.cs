@@ -1,245 +1,280 @@
-﻿using VOL.Entity.SystemModels;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using YusX.Entity.Attributes;
+using YusX.Entity.System;
 
-
-namespace VOL.Entity.DomainModels
+namespace YusX.Entity.Domain
 {
+    /// <summary>
+    /// 表格列
+    /// </summary>
     [Table("Sys_TableColumn")]
-    public class Sys_TableColumn : BaseEntity
+    [Entity(TableCnName = "表格列")]
+    public partial class Sys_TableColumn : BaseEntity
     {
         /// <summary>
-        ///
-        /// <summary>
-        [Display(Name = "")]
-        [Column(TypeName = "int")]
-        [Editable(true)]
-        public int Table_Id { get; set; }
-
-        /// <summary>
-        ///
-        /// <summary>
+        /// ID
+        /// </summary>
         [Key]
-        [Display(Name = "")]
+        [Display(Name = "ID")]
+        [Column(TypeName = "int")]
+        [Required(AllowEmptyStrings = false)]
+        public int Id { get; set; }
+
+        /// <summary>
+        /// 表格ID
+        /// <summary>
+        [Display(Name = "表格ID")]
         [Column(TypeName = "int")]
         [Editable(true)]
-        public int ColumnId { get; set; }
+        [Required(AllowEmptyStrings = false)]
+        public int TableId { get; set; }
 
         /// <summary>
-        ///
-        /// <summary>
-        [Display(Name = "")]
+        /// 显示名称
+        /// </summary>
+        [Display(Name = "显示名称")]
+        [MaxLength(100)]
+        [Column(TypeName = "nvarchar(100)")]
         [Editable(true)]
-        public string ColumnName { get; set; }
+        [Required(AllowEmptyStrings = false)]
+        public string Name { get; set; }
 
         /// <summary>
-        ///
-        /// <summary>
-        [Display(Name = "")]
+        /// 数据字段
+        /// </summary>
+        [Display(Name = "数据字段")]
+        [MaxLength(100)]
+        [Column(TypeName = "nvarchar(100)")]
         [Editable(true)]
-        public string ColumnCnName { get; set; }
+        [Required(AllowEmptyStrings = false)]
+        public string Field { get; set; }
 
         /// <summary>
-        ///
-        /// <summary>
-        [Display(Name = "")]
+        /// 数据字段
+        /// </summary>
+        [Display(Name = "数据字段")]
+        [MaxLength(10000)]
+        [Column(TypeName = "nvarchar(10000)")]
         [Editable(true)]
-        public string ColumnType { get; set; }
+        [Required(AllowEmptyStrings = false)]
+        public string DataType { get; set; }
 
         /// <summary>
-        ///
-        /// <summary>
-        [Display(Name = "")]
-        [Editable(true)]
-        public string TableName { get; set; }
-
-        /// <summary>
-        ///
-        /// <summary>
-        [Display(Name = "")]
+        /// 显示宽度
+        /// </summary>
+        [Display(Name = "显示宽度")]
         [Column(TypeName = "int")]
         [Editable(true)]
-        public int? Maxlength { get; set; }
+        [Required(AllowEmptyStrings = false)]
+        public int Width { get; set; }
 
         /// <summary>
-        ///
-        /// <summary>
-        [Display(Name = "")]
+        /// 显示尺寸
+        /// </summary>
+        [Display(Name = "显示尺寸")]
         [Column(TypeName = "int")]
         [Editable(true)]
-        public int? IsNull { get; set; }
+        public int? ColSize { get; set; }
 
         /// <summary>
-        ///
+        /// 选择器数据源
+        /// </summary>
+        [Display(Name = "选择器数据源")]
+        [MaxLength(50)]
+        [Column(TypeName = "nvarchar(50)")]
+        [Editable(true)]
+        public string DataSource { get; set; }
+
         /// <summary>
-        [Display(Name = "")]
+        /// 是否数据列
+        /// </summary>
+        [Display(Name = "是否数据列")]
+        [Column(TypeName = "tinyint")]
+        [Editable(true)]
+        [Required(AllowEmptyStrings = false)]
+        public bool IsDataColumn { get; set; }
+
+        /// <summary>
+        /// 是否显示
+        /// </summary>
+        [Display(Name = "是否显示")]
+        [Column(TypeName = "tinyint")]
+        [Editable(true)]
+        [Required(AllowEmptyStrings = false)]
+        public bool IsShow { get; set; }
+
+        /// <summary>
+        /// 是否显示为图片
+        /// </summary>
+        [Display(Name = "是否显示为图片")]
+        [Column(TypeName = "tinyint")]
+        [Editable(true)]
+        [Required(AllowEmptyStrings = false)]
+        public bool IsImage { get; set; }
+
+        /// <summary>
+        /// 是否为主键
+        /// </summary>
+        [Display(Name = "是否为主键")]
+        [Column(TypeName = "tinyint")]
+        [Editable(true)]
+        [Required(AllowEmptyStrings = false)]
+        public bool IsKey { get; set; }
+
+        /// <summary>
+        /// 是否只读
+        /// </summary>
+        [Display(Name = "是否只读")]
+        [Column(TypeName = "tinyint")]
+        [Editable(true)]
+        [Required(AllowEmptyStrings = false)]
+        public bool IsReadonly { get; set; }
+
+        /// <summary>
+        /// 是否可空
+        /// </summary>
+        [Display(Name = "是否可空")]
+        [Column(TypeName = "tinyint")]
+        [Editable(true)]
+        [Required(AllowEmptyStrings = false)]
+        public bool Nullable { get; set; }
+
+        /// <summary>
+        /// 是否可排序
+        /// </summary>
+        [Display(Name = "是否可排序")]
+        [Column(TypeName = "tinyint")]
+        [Editable(true)]
+        [Required(AllowEmptyStrings = false)]
+        public bool Sortable { get; set; }
+
+        /// <summary>
+        /// 编辑列号
+        /// </summary>
+        [Display(Name = "编辑列号")]
         [Column(TypeName = "int")]
         [Editable(true)]
-        public int? IsDisplay { get; set; }
+        public int? EditColNo { get; set; }
 
         /// <summary>
-        ///
-        /// <summary>
-        [Display(Name = "")]
+        /// 编辑行号
+        /// </summary>
+        [Display(Name = "编辑行号")]
         [Column(TypeName = "int")]
         [Editable(true)]
-        public int? IsKey { get; set; }
+        public int? EditRowNo { get; set; }
 
         /// <summary>
-        ///
-        /// <summary>
-        [Display(Name = "")]
+        /// 编辑类型
+        /// </summary>
+        [Display(Name = "编辑类型")]
+        [MaxLength(20)]
+        [Column(TypeName = "nvarchar(20)")]
         [Editable(true)]
-        public string Columnformat { get; set; }
+        public string EditType { get; set; }
 
         /// <summary>
-        ///
-        /// <summary>
-        [Display(Name = "")]
-        [Editable(true)]
-        public string Script { get; set; }
-
-        /// <summary>
-        ///
-        /// <summary>
-        [Display(Name = "")]
-        [Editable(true)]
-        public string DropNo { get; set; }
-
-        [Editable(true)]
-        public int? IsImage { get; set; }
-        /// <summary>
-        ///
-        /// <summary>
-        [Display(Name = "")]
+        /// 搜索列号
+        /// </summary>
+        [Display(Name = "搜索列号")]
         [Column(TypeName = "int")]
         [Editable(true)]
-        public int? Sortable { get; set; }
+        public int? SearchColNo { get; set; }
 
         /// <summary>
-        ///
-        /// <summary>
-        [Display(Name = "")]
+        /// 搜索行号
+        /// </summary>
+        [Display(Name = "搜索行号")]
         [Column(TypeName = "int")]
-        [Editable(true)]
-        public int? ColumnWidth { get; set; }
-
-        /// <summary>
-        ///
-        /// <summary>
-        [Display(Name = "")]
         [Editable(true)]
         public int? SearchRowNo { get; set; }
-        [Editable(true)]
-        [Column(TypeName = "int")]
-        public int? SearchColNo { get; set; }
+
         /// <summary>
-        ///
-        /// <summary>
-        [Display(Name = "")]
+        /// 搜索类型
+        /// </summary>
+        [Display(Name = "搜索类型")]
+        [MaxLength(20)]
+        [Column(TypeName = "nvarchar(20)")]
         [Editable(true)]
         public string SearchType { get; set; }
 
         /// <summary>
-        ///
-        /// <summary>
-        [Display(Name = "")]
-        [Editable(true)]
-        [Column(TypeName = "int")]
-        public int? EditRowNo { get; set; }
-
-        [Editable(true)]
-        public int? EditColNo { get; set; }
-        /// <summary>
-        /// 
+        /// 数据最大长度
         /// </summary>
-        [Display(Name = "")]
-        [Editable(true)]
-        public string EditType { get; set; }
-        [Editable(true)]
+        [Display(Name = "数据最大长度")]
         [Column(TypeName = "int")]
-        public int? ColSize { get; set; }
+        [Editable(true)]
+        public int? MaxLength { get; set; }
 
         /// <summary>
-        ///
-        /// <summary>
-        [Display(Name = "")]
+        /// 是否启用
+        /// </summary>
+        [Display(Name = "是否启用")]
+        [Column(TypeName = "tinyint")]
         [Editable(true)]
-        [Column(TypeName = "int")]
-        public int? IsReadDataset { get; set; }
-        /// <summary>
-        ///
-        /// <summary>
-        [Display(Name = "")]
-        [Editable(true)]
-        [Column(TypeName = "int")]
-        public int? Enable { get; set; }
-
-        [Editable(true)]
-        [Column(TypeName = "int")]
-        public int? ApiInPut { get; set; }
-        [Editable(true)]
-        [Column(TypeName = "int")]
-        public int? ApiIsNull { get; set; }
-        [Editable(true)]
-        [Column(TypeName = "int")]
-        public int? ApiOutPut { get; set; }
-        /// <summary>
-        ///
-        /// <summary>
-        [Display(Name = "")]
-        [Column(TypeName = "int")]
-        public int? CreateID { get; set; }
+        [Required(AllowEmptyStrings = false)]
+        public bool Enable { get; set; }
 
         /// <summary>
-        ///
+        /// 排序号
+        /// </summary>
+        [Display(Name = "排序号")]
+        [Column(TypeName = "int")]
+        [Editable(true)]
+        [Required(AllowEmptyStrings = false)]
+        public int SortNo { get; set; }
+
         /// <summary>
-        [Display(Name = "")]
+        /// 创建人ID
+        /// </summary>
+        [Display(Name = "创建人ID")]
+        [Column(TypeName = "int")]
+        [Required(AllowEmptyStrings = false)]
+        public int CreateId { get; set; }
+
+        /// <summary>
+        /// 创建人
+        /// </summary>
+        [Display(Name = "创建人")]
+        [MaxLength(30)]
+        [Column(TypeName = "nvarchar(30)")]
+        [Required(AllowEmptyStrings = false)]
         public string Creator { get; set; }
 
         /// <summary>
-        ///
-        /// <summary>
-        [Display(Name = "")]
-        public DateTime? CreateDate { get; set; }
+        /// 创建时间
+        /// </summary>
+        [Display(Name = "创建时间")]
+        [Column(TypeName = "datetime")]
+        [Required(AllowEmptyStrings = false)]
+        public DateTime CreateDate { get; set; }
 
         /// <summary>
-        ///
-        /// <summary>
-        [Display(Name = "")]
+        /// 修改人ID
+        /// </summary>
+        [Display(Name = "修改人ID")]
         [Column(TypeName = "int")]
-        public int? ModifyID { get; set; }
+        public int? ModifyId { get; set; }
 
         /// <summary>
-        ///
-        /// <summary>
-        [Display(Name = "")]
+        /// 修改人
+        /// </summary>
+        [Display(Name = "修改人")]
+        [MaxLength(30)]
+        [Column(TypeName = "nvarchar(30)")]
         public string Modifier { get; set; }
 
         /// <summary>
-        ///
-        /// <summary>
-        [Display(Name = "")]
+        /// 修改时间
+        /// </summary>
+        [Display(Name = "修改时间")]
+        [Column(TypeName = "datetime")]
         public DateTime? ModifyDate { get; set; }
-
-        /// <summary>
-        ///
-        /// <summary>
-        [Display(Name = "")]
-        [Column(TypeName = "int")]
-        [Editable(true)]
-        public int? OrderNo { get; set; }
-
-        /// <summary>
-        ///
-        /// <summary>
-        [Display(Name = "")]
-        [Column(TypeName = "int")]
-        [Editable(true)]
-        public int? IsColumnData { get; set; }
-
-   
-
     }
 }
