@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace YusX.Entity.Domain.System
+namespace YusX.Entity.System
 {
     /// <summary>
     /// 用户信息

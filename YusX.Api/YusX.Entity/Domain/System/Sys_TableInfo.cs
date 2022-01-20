@@ -1,8 +1,13 @@
-﻿using System;
+﻿/*
+ * Author：SakuraYuki
+ * Contact：MyronMi@outlook.com
+ * ----------
+ * 1.此代码为自动生成，自行修改将会导致不可预知的问题
+ * 2.数据库更新时需重新生成此代码文件
+ */
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using YusX.Entity.Attributes;

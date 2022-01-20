@@ -9,7 +9,7 @@ namespace YusX.Entity.System
     /// <summary>
     /// 系统动作
     /// </summary>
-    public class SysAction
+    public class MenuAction
     {
         /// <summary>
         /// 动作ID

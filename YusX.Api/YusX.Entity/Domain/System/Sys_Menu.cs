@@ -7,9 +7,7 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using YusX.Entity.Attributes;
@@ -162,6 +160,6 @@ namespace YusX.Entity.Domain
         /// <summary>
         /// 菜单动作
         /// </summary>
-        public List<SysAction> Actions { get; set; }
+        public List<MenuAction> Actions { get; set; }
     }
 }

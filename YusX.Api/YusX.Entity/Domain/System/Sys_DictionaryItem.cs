@@ -7,9 +7,7 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using YusX.Entity.Attributes;
@@ -18,11 +16,11 @@ using YusX.Entity.System;
 namespace YusX.Entity.Domain
 {
     /// <summary>
-    /// 字典明细
+    /// 字典项
     /// </summary>
-    [Table("Sys_Dictionary")]
-    [Entity(TableCnName = "字典明细")]
-    public class Sys_DictionaryList : BaseEntity
+    [Table("Sys_DictionaryItem")]
+    [Entity(TableCnName = "字典项")]
+    public class Sys_DictionaryItem : BaseEntity
     {
         /// <summary>
         /// ID

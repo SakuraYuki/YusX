@@ -7,21 +7,19 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using YusX.Entity.Attributes;
 using YusX.Entity.System;
 
-namespace VOL.Entity.DomainModels
+namespace YusX.Entity.Domain
 {
     /// <summary>
     /// 接口日志
     /// </summary>
     [Table("Sys_ApiLog")]
-    [EntityAttribute(TableCnName = "接口日志")]
+    [Entity(TableCnName = "接口日志")]
     public class Sys_ApiLog : BaseEntity
     {
         /// <summary>

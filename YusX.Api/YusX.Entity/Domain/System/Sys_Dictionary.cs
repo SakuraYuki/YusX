@@ -7,9 +7,7 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using YusX.Entity.Attributes;
@@ -21,7 +19,7 @@ namespace YusX.Entity.Domain
     /// 字典
     /// </summary>
     [Table("Sys_Dictionary")]
-    [Entity(TableCnName = "字典", DetailTable = typeof(Sys_DictionaryList), DetailTableName = "字典明细")]
+    [Entity(TableCnName = "字典", DetailTable = typeof(Sys_DictionaryItem), DetailTableName = "字典项")]
     public partial class Sys_Dictionary : BaseEntity
     {
         /// <summary>
@@ -146,10 +144,10 @@ namespace YusX.Entity.Domain
         public DateTime? ModifyDate { get; set; }
 
         /// <summary>
-        /// 字典明细
+        /// 字典项
         /// </summary>
-        [Display(Name = "字典明细")]
-        [ForeignKey("DictID")]
-        public List<Sys_DictionaryList> Sys_DictionaryList { get; set; }
+        [Display(Name = "字典项")]
+        [ForeignKey("DictId")]
+        public List<Sys_DictionaryItem> DictionaryItems { get; set; }
     }
 }
