@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `Sys_Dictionary`
     `DictNo` varchar(100) NOT NULL COMMENT '字典编号',
     `Name` varchar(100) NOT NULL COMMENT '字典名称',
     `ParentId` int NOT NULL DEFAULT 0 COMMENT '父级ID',
-    `Enable` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否启用',
+    `Enable` tinyint NOT NULL DEFAULT 1 COMMENT '是否启用',
     `SortNo` int NOT NULL DEFAULT 0 COMMENT '排序号',
     `Remark` varchar(4000) DEFAULT NULL COMMENT '备注',
     `DbSql` text DEFAULT NULL COMMENT 'SQL语句',
@@ -79,15 +79,15 @@ VALUES (1, 'CommonHas', '有无值', 0, 1, 0, NULL, NULL, 1, '超级管理员', 
        (105, 'SysTokenType', '令牌类型', 0, 1, 0, NULL, NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
        (106, 'SysTokenCodeType', '令牌代码类型', 0, 1, 0, NULL, NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL);
 
--- 字典明细(Sys_DictionaryList)
--- DROP TABLE IF EXISTS `Sys_DictionaryList`;
-CREATE TABLE IF NOT EXISTS `Sys_DictionaryList`
+-- 字典项(Sys_DictionaryItem)
+-- DROP TABLE IF EXISTS `Sys_DictionaryItem`;
+CREATE TABLE IF NOT EXISTS `Sys_DictionaryItem`
 (
     `Id` int PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT 'ID',
     `DictId` int NOT NULL COMMENT '字典ID',
     `Name` varchar(100) NOT NULL COMMENT '字典项名称',
     `Value` varchar(100) NOT NULL COMMENT '字典项值',
-    `Enable` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否启用',
+    `Enable` tinyint NOT NULL DEFAULT 1 COMMENT '是否启用',
     `SortNo` int DEFAULT NULL DEFAULT 0 COMMENT '排序号',
     `Remark` varchar(2000) DEFAULT NULL COMMENT '备注',
     `CreateId` int NOT NULL COMMENT '创建人ID',
@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `Sys_DictionaryList`
     `ModifyDate` datetime DEFAULT NULL COMMENT '修改时间'
 ) COMMENT '字典明细';
 
-INSERT INTO Sys_DictionaryList (DictId, Name, Value, Enable, SortNo, Remark, CreateId, Creator, CreateDate, ModifyId, Modifier, ModifyDate)
+INSERT INTO Sys_DictionaryItem (DictId, Name, Value, Enable, SortNo, Remark, CreateId, Creator, CreateDate, ModifyId, Modifier, ModifyDate)
 VALUES (1, '无', '0', 1, 100, NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
        (1, '有', '1', 1, 95, NULL, 1, '超级管理员', '2021-01-01 00:00:00', NULL, NULL, NULL),
        -- 是否值
@@ -171,7 +171,7 @@ CREATE TABLE IF NOT EXISTS `Sys_Flag`
 (
     `Id` int PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT 'ID',
     `Flag` varchar(50) NOT NULL COMMENT '标志',
-    `Value` mediumtext DEFAULT NULL COMMENT '内容',
+    `Value` text DEFAULT NULL COMMENT '内容',
     `Remark` varchar(200) DEFAULT NULL COMMENT '备注',
     `GroupName` varchar(30) DEFAULT NULL COMMENT '分组',
     `CreateId` int NOT NULL COMMENT '创建人ID',
@@ -191,7 +191,7 @@ CREATE TABLE IF NOT EXISTS `Sys_Menu`
     `ParentId` int NOT NULL DEFAULT 0 COMMENT '父级ID',
     `Icon` varchar(50) DEFAULT NULL COMMENT '图标',
     `Description` varchar(200) DEFAULT NULL COMMENT '描述',
-    `Enable` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否启用',
+    `Enable` tinyint NOT NULL DEFAULT 1 COMMENT '是否启用',
     `SortNo` int NOT NULL DEFAULT 0 COMMENT '排序号',
     `TableName` varchar(200) DEFAULT NULL COMMENT '数据表名称',
     `Url` varchar(4000) DEFAULT NULL COMMENT '页面地址',
@@ -231,7 +231,7 @@ CREATE TABLE IF NOT EXISTS `Sys_TableInfo`
     `DetailTable` varchar(200) DEFAULT NULL COMMENT '明细表名',
     `ViewFolder` varchar(200) NOT NULL COMMENT '视图文件夹',
     `ProjectName` varchar(200) NOT NULL COMMENT '项目名称',
-    `Enable` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否启用',
+    `Enable` tinyint NOT NULL DEFAULT 1 COMMENT '是否启用',
     `SortNo` int NOT NULL DEFAULT 0 COMMENT '排序号',
     `SortField` varchar(50) DEFAULT NULL COMMENT '排序字段',
     `EditField` varchar(50) DEFAULT NULL COMMENT '编辑字段',
@@ -262,13 +262,13 @@ CREATE TABLE IF NOT EXISTS `Sys_TableColumn`
     `Width` int NOT NULL COMMENT '显示宽度',
     `ColSize` int DEFAULT NULL COMMENT '显示尺寸',
     `DataSource` varchar(50) DEFAULT NULL COMMENT '选择器数据源',
-    `IsDataColumn` tinyint(1) NOT NULL COMMENT '是否数据列',
-    `IsShow` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否显示',
-    `IsImage` tinyint(1) NOT NULL COMMENT '是否显示为图片',
-    `IsKey` tinyint(1) NOT NULL COMMENT '是否为主键',
-    `IsReadonly` tinyint(1) NOT NULL COMMENT '是否只读',
-    `Nullable` tinyint(1) NOT NULL COMMENT '是否可空',
-    `Sortable` tinyint(1) NOT NULL COMMENT '是否可排序',
+    `IsDataColumn` tinyint NOT NULL COMMENT '是否数据列',
+    `IsShow` tinyint NOT NULL DEFAULT 1 COMMENT '是否显示',
+    `IsImage` tinyint NOT NULL COMMENT '是否显示为图片',
+    `IsKey` tinyint NOT NULL COMMENT '是否为主键',
+    `IsReadonly` tinyint NOT NULL COMMENT '是否只读',
+    `Nullable` tinyint NOT NULL COMMENT '是否可空',
+    `Sortable` tinyint NOT NULL COMMENT '是否可排序',
     `EditColNo` int DEFAULT NULL COMMENT '编辑列号',
     `EditRowNo` int DEFAULT NULL COMMENT '编辑行号',
     `EditType` varchar(20) DEFAULT NULL COMMENT '编辑类型',
@@ -276,7 +276,7 @@ CREATE TABLE IF NOT EXISTS `Sys_TableColumn`
     `SearchRowNo` int DEFAULT NULL COMMENT '搜索行号',
     `SearchType` varchar(20) DEFAULT NULL COMMENT '搜索类型',
     `MaxLength` int DEFAULT NULL COMMENT '数据最大长度',
-    `Enable` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否启用',
+    `Enable` tinyint NOT NULL DEFAULT 1 COMMENT '是否启用',
     `SortNo` int NOT NULL DEFAULT 0 COMMENT '排序号',
     `CreateId` int NOT NULL COMMENT '创建人ID',
     `Creator` varchar(30) NOT NULL COMMENT '创建人',
@@ -294,7 +294,7 @@ CREATE TABLE IF NOT EXISTS `Sys_Department`
     `Name` varchar(20) NOT NULL COMMENT '部门名称',
     `ParentId` int NOT NULL DEFAULT 0 COMMENT '父级ID',
     `AvatarUrl` varchar(50) DEFAULT NULL COMMENT '头像地址',
-    `Enable` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否启用',
+    `Enable` tinyint NOT NULL DEFAULT 1 COMMENT '是否启用',
     `SortNo` int NOT NULL DEFAULT 0 COMMENT '排序号',
     `Remark` varchar(200) DEFAULT NULL COMMENT '备注',
     `CreateId` int NOT NULL COMMENT '创建人ID',
@@ -337,7 +337,7 @@ CREATE TABLE IF NOT EXISTS `Sys_User`
     `Nickname` varchar(20) NOT NULL COMMENT '昵称',
     `DeptId` int DEFAULT NULL COMMENT '部门ID',
     `DeptName` varchar(20) DEFAULT NULL COMMENT '部门名称',
-    `Gender` tinyint(1) DEFAULT NULL COMMENT '性别',
+    `Gender` tinyint DEFAULT NULL COMMENT '性别',
     `Address` varchar(200) DEFAULT NULL COMMENT '地址',
     `Email` varchar(100) DEFAULT NULL COMMENT '邮箱',
     `RealName` varchar(20) DEFAULT NULL COMMENT '真实名称',
@@ -345,12 +345,12 @@ CREATE TABLE IF NOT EXISTS `Sys_User`
     `Mobile` varchar(20) DEFAULT NULL COMMENT '手机号',
     `Fax` varchar(20) DEFAULT NULL COMMENT '传真',
     `AvatarUrl` varchar(200) DEFAULT NULL COMMENT '头像地址',
-    `Enable` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否启用',
+    `Enable` tinyint NOT NULL DEFAULT 1 COMMENT '是否启用',
     `SortNo` int NOT NULL DEFAULT 0 COMMENT '排序号',
     `Remark` varchar(200) DEFAULT NULL COMMENT '备注',
     `Password` char(32) NOT NULL COMMENT '密码',
     `Salt` char(32) NOT NULL COMMENT '加盐值',
-    `AuditStatus` int NOT NULL COMMENT '审核状态',
+    `AuditStatus` tinyint NOT NULL COMMENT '审核状态',
     `AuditId` int DEFAULT NULL COMMENT '审核人ID',
     `Auditor` varchar(30) DEFAULT NULL COMMENT '审核人',
     `AuditDate` datetime DEFAULT NULL COMMENT '审核时间',
@@ -393,7 +393,7 @@ CREATE TABLE IF NOT EXISTS `Sys_Role`
     `RoleId` int PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT '角色ID',
     `Name` varchar(50) NOT NULL COMMENT '名称',
     `ParentId` int NOT NULL DEFAULT 0 COMMENT '父级ID',
-    `Enable` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否启用',
+    `Enable` tinyint NOT NULL DEFAULT 1 COMMENT '是否启用',
     `SortNo` int NOT NULL DEFAULT 0 COMMENT '排序号',
     `Remark` varchar(200) DEFAULT NULL COMMENT '备注',
     `CreateId` int NOT NULL COMMENT '创建人ID',
