@@ -215,6 +215,7 @@ CREATE TABLE IF NOT EXISTS `Sys_Menu`
 (
     `MenuId` int PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
     `Name` varchar(50) NOT NULL COMMENT '菜单名称',
+    `Type` int NOT NULL DEFAULT 0 COMMENT '菜单类型',
     `ParentId` int NOT NULL DEFAULT 0 COMMENT '父级ID',
     `Icon` varchar(50) DEFAULT NULL COMMENT '图标',
     `Description` varchar(200) DEFAULT NULL COMMENT '描述',
