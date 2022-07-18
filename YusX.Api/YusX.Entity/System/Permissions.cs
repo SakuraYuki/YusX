@@ -25,6 +25,11 @@ namespace YusX.Entity.System
         public string TableName { get; set; }
 
         /// <summary>
+        /// 菜单类型，0.PC端，1.移动端
+        /// </summary>
+        public int MenuType { get; set; }
+
+        /// <summary>
         /// 菜单授权
         /// </summary>
         public string MenuAuth { get; set; }

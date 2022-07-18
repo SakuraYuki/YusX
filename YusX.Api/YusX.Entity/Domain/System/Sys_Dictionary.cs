@@ -19,7 +19,7 @@ namespace YusX.Entity.Domain
     /// 字典
     /// </summary>
     [Table("Sys_Dictionary")]
-    [Entity(TableCnName = "字典", DetailTable = typeof(Sys_DictionaryItem), DetailTableName = "字典项")]
+    [Entity(TableCnName = "字典", DetailTable = new[] { typeof(Sys_DictionaryItem) }, DetailTableName = "字典项")]
     public partial class Sys_Dictionary : BaseEntity
     {
         /// <summary>

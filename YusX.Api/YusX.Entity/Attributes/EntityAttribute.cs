@@ -20,7 +20,7 @@ namespace YusX.Entity.Attributes
         /// <summary>
         /// 明细表类型
         /// </summary>
-        public Type DetailTable { get; set; }
+        public Type[] DetailTable { get; set; }
 
         /// <summary>
         /// 明细表名称

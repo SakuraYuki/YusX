@@ -37,7 +37,7 @@ namespace YusX.Entity.System
         /// <summary>
         /// 搜索选项集合
         /// </summary>
-        public List<SearchOption> SearchOptions { get; set; }
+        public List<SearchOptions> SearchOptions { get; set; }
 
         /// <summary>
         /// 是否导出数据
@@ -53,7 +53,7 @@ namespace YusX.Entity.System
     /// <summary>
     /// 搜索选项
     /// </summary>
-    public class SearchOption
+    public class SearchOptions
     {
         /// <summary>
         /// 名称，一般是字段名

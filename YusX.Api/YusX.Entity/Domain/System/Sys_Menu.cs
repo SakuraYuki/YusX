@@ -43,6 +43,15 @@ namespace YusX.Entity.Domain
         public string MenuName { get; set; }
 
         /// <summary>
+        /// 菜单类型
+        /// </summary>
+        [Display(Name = "菜单类型")]
+        [Column(TypeName = "int")]
+        [Editable(true)]
+        [Required(AllowEmptyStrings = false)]
+        public int MenuType { get; set; }
+
+        /// <summary>
         /// 父级ID
         /// </summary>
         [Display(Name = "父级ID")]

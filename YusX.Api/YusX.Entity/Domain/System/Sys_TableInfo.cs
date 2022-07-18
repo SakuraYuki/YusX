@@ -19,7 +19,7 @@ namespace YusX.Entity.Domain
     /// 表格
     /// </summary>
     [Table("Sys_TableInfo")]
-    [Entity(TableCnName = "表格", DetailTable = typeof(Sys_TableColumn), DetailTableName = "表格列")]
+    [Entity(TableCnName = "表格", DetailTable = new[] { typeof(Sys_TableColumn) }, DetailTableName = "表格列")]
     public class Sys_TableInfo : BaseEntity
     {
         /// <summary>
