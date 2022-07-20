@@ -119,13 +119,13 @@ namespace YusX.Core.Configuration
             GlobalFilter.Actions = GlobalFilter.Actions ?? new string[0];
             Kafka = provider.GetRequiredService<IOptions<Kafka>>().Value ?? new Kafka();
 
-            DbInfo.Name = Connection.DBType;
+            DbInfo.Name = Connection.DbType;
             if (string.IsNullOrWhiteSpace(Connection.DbConnectionString))
             {
                 throw new System.Exception("未配置好数据库默认连接");
             }
 
-            if (Connection.DbConnectionString.TryDecryptDES(Secret.DB, out var dbConnectionString))
+            if (Connection.DbConnectionString.TryDecryptDES(Secret.Db, out var dbConnectionString))
             {
                 Connection.DbConnectionString = dbConnectionString;
             }

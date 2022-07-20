@@ -1508,7 +1508,7 @@ namespace YusX.Core.Extensions
         /// </param>
         private static TSource SetDefaultVal<TSource>(this TSource source, TableDefaultColumns defaultColumns, UserInfo userInfo = null)
         {
-            userInfo = userInfo ?? ManageUser.UserContext.Current.UserInfo;
+            userInfo = userInfo ?? ManageUser.UserManager.Current.UserInfo;
             foreach (PropertyInfo property in typeof(TSource).GetProperties())
             {
                 string filed = property.Name.ToLower();
@@ -1532,7 +1532,7 @@ namespace YusX.Core.Extensions
 
         private static Dictionary<string, object> SetDefaultVal(this Dictionary<string, object> dic, TableDefaultColumns defaultColumns, UserInfo userInfo = null)
         {
-            userInfo = userInfo ?? ManageUser.UserContext.Current.UserInfo;
+            userInfo = userInfo ?? ManageUser.UserManager.Current.UserInfo;
 
             KeyValuePair<string, object> valuePair = dic.Where(x => x.Key.ToLower() == defaultColumns.UserIdField?.ToLower()).FirstOrDefault();
 

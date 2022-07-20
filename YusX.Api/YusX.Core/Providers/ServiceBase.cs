@@ -6,16 +6,14 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using YusX.Core.AutofacManager;
 using YusX.Core.Configuration;
 using YusX.Core.Constracts;
 using YusX.Core.Enums;
 using YusX.Core.Extensions;
 using YusX.Core.Filters;
-using YusX.Core.ManageUser;
+using YusX.Core.Managers;
 using YusX.Core.Providers.Cache;
-using YusX.Core.Services;
-using YusX.Core.Tenancy;
+using YusX.Core.Providers.Logger;
 using YusX.Core.Utilities;
 using YusX.Entity.Attributes;
 using YusX.Entity.System;
@@ -30,9 +28,7 @@ namespace YusX.Core.Providers
 
         protected IRepository<T> repository;
 
-        public ICacheService CacheContext => Ioc.GetService<ICacheService>();
-
-        public Microsoft.AspNetCore.Http.HttpContext Context => HttpContext.Current;
+        public ICacheService CacheContext => App.GetService<ICacheService>();
 
         private PropertyInfo[] _propertyInfo { get; set; } = null;
 
@@ -422,7 +418,7 @@ namespace YusX.Core.Providers
                 if (CheckResponseResult()) return Response;
             }
             //2022.01.08增加明细表导入判断
-            if (HttpContext.Current.Request.Query.ContainsKey("table"))
+            if (App.HttpContext.Request.Query.ContainsKey("table"))
             {
                 ImportOnExecuted?.Invoke(list);
                 return Response.OK("文件上传成功", list.Serialize());
@@ -489,7 +485,7 @@ namespace YusX.Core.Providers
             if (saveDataModel.MainData.Count == 0)
                 return Response.Error("保存的数据为空，请检查model是否配置正确!");
 
-            UserInfo userInfo = UserContext.Current.UserInfo;
+            UserInfo userInfo = UserManager.Current.UserInfo;
             saveDataModel.SetDefaultVal(AppSetting.CreateMember, userInfo);
 
             PropertyInfo keyPro = type.GetKeyProperty();
@@ -845,7 +841,7 @@ namespace YusX.Core.Providers
             Type type = typeof(T);
 
             //设置修改时间,修改人的默认值
-            UserInfo userInfo = UserContext.Current.UserInfo;
+            UserInfo userInfo = UserManager.Current.UserInfo;
             saveModel.SetDefaultVal(AppSetting.ModifyMember, userInfo);
 
 
@@ -908,7 +904,7 @@ namespace YusX.Core.Providers
             if (saveModel.MainData.Count <= 1) return Response.Error("系统没有配置好编辑的数据，请检查model!");
 
             // 2020.08.15添加多租户数据过滤（编辑）
-            if (IsMultiTenancy && !UserContext.Current.IsSuperAdmin)
+            if (IsMultiTenancy && !UserManager.Current.IsSuperAdmin)
             {
                 CheckUpdateMultiTenancy(mainKeyProperty.PropertyType == typeof(Guid) ? "'" + mainKeyVal.ToString() + "'" : mainKeyVal.ToString(), mainKeyProperty.Name);
                 if (CheckResponseResult())
@@ -1036,7 +1032,7 @@ namespace YusX.Core.Providers
                  : $"'{string.Join("','", keys)}'";
 
             // 2020.08.15添加判断多租户数据（删除）
-            if (IsMultiTenancy && !UserContext.Current.IsSuperAdmin)
+            if (IsMultiTenancy && !UserManager.Current.IsSuperAdmin)
             {
                 CheckDelMultiTenancy(joinKeys, tKey);
                 if (CheckResponseResult())
@@ -1046,24 +1042,12 @@ namespace YusX.Core.Providers
             }
 
             string sql = $"DELETE FROM {entityType.GetEntityTableName()} where {tKey} in ({joinKeys});";
-            // 2020.08.06增加pgsql删除功能
-            if (DbInfo.Name == DbCurrentType.PgSql.ToString())
-            {
-                sql = $"DELETE FROM \"public\".\"{entityType.GetEntityTableName()}\" where \"{tKey}\" in ({joinKeys});";
-            }
             if (delList)
             {
                 Type detailType = GetRealDetailType();
                 if (detailType != null)
                 {
-                    if (DbInfo.Name == DbCurrentType.PgSql.ToString())
-                    {
-                        sql += $"DELETE FROM \"public\".\"{detailType.GetEntityTableName()}\" where \"{tKey}\" in ({joinKeys});";
-                    }
-                    else
-                    {
-                        sql += $"DELETE FROM {detailType.GetEntityTableName()} where {tKey} in ({joinKeys});";
-                    }
+                    sql += $"DELETE FROM {detailType.GetEntityTableName()} where {tKey} in ({joinKeys});";
                 }
 
             }
@@ -1107,7 +1091,7 @@ namespace YusX.Core.Providers
             if (property == null)
                 return Response.Error("没有配置好主键!");
 
-            UserInfo userInfo = UserContext.Current.UserInfo;
+            UserInfo userInfo = UserManager.Current.UserInfo;
 
             //表如果有审核相关字段，设置默认审核
 
@@ -1125,7 +1109,7 @@ namespace YusX.Core.Providers
                     switch (item.Name.ToLower())
                     {
                         case "auditid":
-                            item.SetValue(entity, userInfo.User_Id);
+                            item.SetValue(entity, userInfo.UserId);
                             break;
                         case "auditstatus":
                             item.SetValue(entity, auditStatus);

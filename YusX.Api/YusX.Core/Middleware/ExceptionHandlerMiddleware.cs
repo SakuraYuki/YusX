@@ -40,19 +40,13 @@ namespace YusX.Core.Middleware
             {
                 observer.RequestTime = DateTime.Now;
                 await _next(context);
-                ApiLogger.Info(ApiLogType.System);
+                LogProvider.Info(ApiLogType.System);
                 observer.IsLogged = true;
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                string message = exception.Message
-                    + exception.InnerException
-                    ?.InnerException
-                    ?.Message
-                    + exception.InnerException
-                    + exception.StackTrace;
-                Console.WriteLine($"服务器处理出现异常:{message}");
-                ApiLogger.Error(ApiLogType.Exception, message);
+                Console.WriteLine($"服务器处理出现异常:{ex.Format()}");
+                LogProvider.Error(ApiLogType.Exception, ex.Message, ex: ex);
                 if (observer != null)
                 {
                     observer.IsLogged = true;

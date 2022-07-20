@@ -20,7 +20,7 @@ namespace YusX.Core.Extensions
                 ContentType = "application/json",
                 StatusCode = (int)statusCode
             };
-            ApiLogger.Info(ApiLogType.ApiAuthorize, message);
+            LogProvider.Info(ApiLogType.ApiAuthorize, message);
             return context;
         }
 

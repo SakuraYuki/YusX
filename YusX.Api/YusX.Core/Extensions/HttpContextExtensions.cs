@@ -64,12 +64,10 @@ namespace YusX.Core.Extensions
         /// <returns></returns>
         public static string GetUserAddress(this HttpContext context)
         {
-            string realIP = null;
-            string forwarded = null;
             string remoteIpAddress = context.Connection.RemoteIpAddress.ToString();
             if (context.Request.Headers.ContainsKey("X-Real-IP"))
             {
-                realIP = context.Request.Headers["X-Real-IP"].ToString();
+                string realIP = context.Request.Headers["X-Real-IP"].ToString();
                 if (realIP != remoteIpAddress)
                 {
                     remoteIpAddress = realIP;
@@ -77,12 +75,13 @@ namespace YusX.Core.Extensions
             }
             if (context.Request.Headers.ContainsKey("X-Forwarded-For"))
             {
-                forwarded = context.Request.Headers["X-Forwarded-For"].ToString();
+                string forwarded = context.Request.Headers["X-Forwarded-For"].ToString();
                 if (forwarded != remoteIpAddress)
                 {
                     remoteIpAddress = forwarded;
                 }
             }
+
             return remoteIpAddress;
         }
 
@@ -112,7 +111,7 @@ namespace YusX.Core.Extensions
             }
             catch (Exception ex)
             {
-                Console.Write(ex.Message + ex.InnerException);
+                Console.Write(ex.Format());
                 return context.RequestString(parameter);
             }
         }
@@ -216,7 +215,6 @@ namespace YusX.Core.Extensions
         /// </summary>
         /// <param name="context">HTTP 上下文</param>
         /// <returns></returns>
-
         public static string GetRequestParameters(this HttpContext context)
         {
             if (context.Request.Body == null || !context.Request.Body.CanRead || !context.Request.Body.CanSeek)

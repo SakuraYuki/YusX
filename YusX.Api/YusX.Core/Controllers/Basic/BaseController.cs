@@ -108,7 +108,7 @@ namespace YusX.Core.Controllers.Basic
             }
             catch (Exception ex)
             {
-                ApiLogger.Error($"文件下载出错:{path}{ex.Message}");
+                LogProvider.Error($"文件下载出错:{path}{ex.Message}");
             }
             return Content("");
         }
@@ -135,7 +135,7 @@ namespace YusX.Core.Controllers.Basic
         public virtual async Task<ActionResult> Del(object[] keys)
         {
             ResponseContent = await Task.FromResult(InvokeService("Del", new object[] { keys, true })) as WebResponseContent;
-            ApiLogger.Info(ApiLogType.Del, keys.Serialize(), ResponseContent.Status ? "Ok" : ResponseContent.Message);
+            LogProvider.Info(ApiLogType.Del, keys.Serialize(), ResponseContent.Status ? "Ok" : ResponseContent.Message);
             return Json(ResponseContent);
         }
 
@@ -143,7 +143,7 @@ namespace YusX.Core.Controllers.Basic
         public virtual async Task<ActionResult> Audit(object[] id, int? auditStatus, string auditReason)
         {
             ResponseContent = await Task.FromResult(InvokeService("Audit", new object[] { id, auditStatus, auditReason })) as WebResponseContent;
-            ApiLogger.Info(ApiLogType.Del, id?.Serialize() + "," + (auditStatus ?? -1) + "," + auditReason, ResponseContent.Status ? "Ok" : ResponseContent.Message);
+            LogProvider.Info(ApiLogType.Del, id?.Serialize() + "," + (auditStatus ?? -1) + "," + auditReason, ResponseContent.Status ? "Ok" : ResponseContent.Message);
             return Json(ResponseContent);
         }
 
@@ -151,7 +151,7 @@ namespace YusX.Core.Controllers.Basic
         public virtual async Task<WebResponseContent> Add(SaveDataModel saveModel)
         {
             ResponseContent = await Task.FromResult(InvokeService("Add", new Type[] { typeof(SaveDataModel) }, new object[] { saveModel })) as WebResponseContent;
-            ApiLogger.Info(ApiLogType.Add, saveModel.Serialize(), ResponseContent.Status ? "Ok" : ResponseContent.Message);
+            LogProvider.Info(ApiLogType.Add, saveModel.Serialize(), ResponseContent.Status ? "Ok" : ResponseContent.Message);
             return ResponseContent;
         }
 
@@ -159,7 +159,7 @@ namespace YusX.Core.Controllers.Basic
         public virtual async Task<WebResponseContent> Update(SaveDataModel saveModel)
         {
             ResponseContent = await Task.FromResult(InvokeService("Update", new object[] { saveModel })) as WebResponseContent;
-            ApiLogger.Info(ApiLogType.Edit, saveModel.Serialize(), ResponseContent.Status ? "Ok" : ResponseContent.Message);
+            LogProvider.Info(ApiLogType.Edit, saveModel.Serialize(), ResponseContent.Status ? "Ok" : ResponseContent.Message);
             return ResponseContent;
         }
 

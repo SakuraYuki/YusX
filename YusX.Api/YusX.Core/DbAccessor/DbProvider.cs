@@ -1,12 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using YusX.Core.Configuration;
 using YusX.Core.Constracts;
-using YusX.Core.Dapper;
-using YusX.Core.EFDbContext;
 using YusX.Core.Enums;
 using YusX.Core.Extensions;
 
@@ -34,16 +31,6 @@ namespace YusX.Core.DbAccessor
         /// 默认连接配置名
         /// </summary>
         private static readonly string DefaultConnectionName = "defalut";
-
-        /// <summary>
-        /// 获使用默认数据库连接初始化的Dapper操作对象
-        /// </summary>
-        public static ISqlDapper SqlDapper => new SqlDapper(DefaultConnectionName);
-
-        /// <summary>
-        /// 获取一个数据库上下文
-        /// </summary>
-        public static YusXContext DbContext => GetEFDbContext();
 
         public static void SetConnection(string key, string val)
         {
@@ -93,10 +80,6 @@ namespace YusX.Core.DbAccessor
             {
                 return new MySql.Data.MySqlClient.MySqlConnection(connString);
             }
-            if (DbInfo.Name.EqualsIgnoreCase(DbCurrentType.PgSql))
-            {
-                return new NpgsqlConnection(connString);
-            }
             return new SqlConnection(connString);
         }
 
@@ -117,82 +100,8 @@ namespace YusX.Core.DbAccessor
             {
                 return new MySql.Data.MySqlClient.MySqlConnection(connString);
             }
-            if (dbCurrentType == DbCurrentType.PgSql)
-            {
-                return new NpgsqlConnection(connString);
-            }
             return new SqlConnection(connString);
 
-        }
-
-        public static YusXContext GetEFDbContext()
-        {
-            return GetEFDbContext(null);
-        }
-
-        public static YusXContext GetEFDbContext(string dbName)
-        {
-            var beefContext = Utilities.HttpContext.Current.RequestServices.GetService(typeof(YusXContext)) as YusXContext;
-            if (dbName != null)
-            {
-                if (!ConnectionPool.ContainsKey(dbName))
-                {
-                    throw new Exception("数据库连接名称错误");
-                }
-                beefContext.Database.GetDbConnection().ConnectionString = ConnectionPool[dbName];
-            }
-            return beefContext;
-        }
-
-        public static void SetDbContextConnection(YusXContext beefContext, string dbName)
-        {
-            if (!ConnectionPool.ContainsKey(dbName))
-            {
-                throw new Exception("数据库连接名称错误");
-            }
-            beefContext.Database.GetDbConnection().ConnectionString = ConnectionPool[dbName];
-        }
-
-        /// <summary>
-        /// 获取实体的数据库连接
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="defaultDbContext"></param>
-        /// <returns></returns>
-        public static void GetDbContextConnection<TEntity>(YusXContext defaultDbContext)
-        {
-            //string connstr= defaultDbContext.Database.GetDbConnection().ConnectionString;
-            // if (connstr != ConnectionPool[DefaultConnName])
-            // {
-            //     defaultDbContext.Database.GetDbConnection().ConnectionString = ConnectionPool[DefaultConnName];
-            // };
-        }
-
-        public static ISqlDapper GetSqlDapper(string dbName = null)
-        {
-            return new SqlDapper(dbName ?? DefaultConnectionName);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="dbCurrentType">指定数据库类型：MySql/MsSql/PgSql</param>
-        /// <param name="dbName">指定数据连串名称</param>
-        /// <returns></returns>
-        public static ISqlDapper GetSqlDapper(DbCurrentType dbCurrentType, string dbName = null)
-        {
-            if (dbName.IsNullOrEmpty())
-            {
-                return new SqlDapper(dbName ?? DefaultConnectionName);
-            }
-            return new SqlDapper(dbName, dbCurrentType);
-        }
-
-        public static ISqlDapper GetSqlDapper<TEntity>()
-        {
-            //获取实体真实的数据库连接池对象名，如果不存在则用默认数据连接池名
-            string dbName = typeof(TEntity).GetTypeCustomValue<DBConnectionAttribute>(x => x.DbName) ?? DefaultConnectionName;
-            return GetSqlDapper(dbName);
         }
     }
 }

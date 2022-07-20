@@ -5,7 +5,7 @@ using System.Net;
 using System.Security.Claims;
 using YusX.Core.Configuration;
 using YusX.Core.Extensions;
-using YusX.Core.ManageUser;
+using YusX.Core.Managers;
 using YusX.Core.Utilities;
 
 namespace YusX.Core.Filters
@@ -44,7 +44,7 @@ namespace YusX.Core.Filters
                 ?.BootstrapContext?.ToString();
             }
             //判断当前用户的token与缓存的token是否相同
-            if (UserContext.Current.Token != fixedoken)
+            if (UserManager.Current.Token != fixedoken)
             {
                 context.FilterResult(HttpStatusCode.Unauthorized, "token已失效");
             }

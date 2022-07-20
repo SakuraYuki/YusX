@@ -147,7 +147,7 @@ namespace YusX.Core.Controllers.Basic
         public virtual ActionResult Del([FromBody] object[] keys)
         {
             ResponseContent = InvokeService("Del", new object[] { keys, true }) as WebResponseContent;
-            ApiLogger.Info(ApiLogType.Del, keys.Serialize(), ResponseContent.Status ? "Ok" : ResponseContent.Message);
+            LogProvider.Info(ApiLogType.Del, keys.Serialize(), ResponseContent.Status ? "Ok" : ResponseContent.Message);
             return Json(ResponseContent);
         }
 
@@ -162,7 +162,7 @@ namespace YusX.Core.Controllers.Basic
         public virtual ActionResult Audit([FromBody] object[] id, int? auditStatus, string auditReason)
         {
             ResponseContent = InvokeService("Audit", new object[] { id, auditStatus, auditReason }) as WebResponseContent;
-            ApiLogger.Info(ApiLogType.Del, id?.Serialize() + "," + (auditStatus ?? -1) + "," + auditReason, ResponseContent.Status ? "Ok" : ResponseContent.Message);
+            LogProvider.Info(ApiLogType.Del, id?.Serialize() + "," + (auditStatus ?? -1) + "," + auditReason, ResponseContent.Status ? "Ok" : ResponseContent.Message);
             return Json(ResponseContent);
         }
 
@@ -179,7 +179,7 @@ namespace YusX.Core.Controllers.Basic
             ResponseContent = InvokeService("Add",
                 new Type[] { typeof(SaveDataModel) },
                 new object[] { saveModel }) as WebResponseContent;
-            ApiLogger.Info(ApiLogType.Add, saveModel.Serialize(), ResponseContent.Status ? "Ok" : ResponseContent.Message);
+            LogProvider.Info(ApiLogType.Add, saveModel.Serialize(), ResponseContent.Status ? "Ok" : ResponseContent.Message);
             ResponseContent.Data = ResponseContent.Data?.Serialize();
             return Json(ResponseContent);
         }
@@ -198,7 +198,7 @@ namespace YusX.Core.Controllers.Basic
         public virtual ActionResult Update([FromBody] SaveDataModel saveModel)
         {
             ResponseContent = InvokeService("Update", new object[] { saveModel }) as WebResponseContent;
-            ApiLogger.Info(ApiLogType.Edit, saveModel.Serialize(), ResponseContent.Status ? "Ok" : ResponseContent.Message);
+            LogProvider.Info(ApiLogType.Edit, saveModel.Serialize(), ResponseContent.Status ? "Ok" : ResponseContent.Message);
             ResponseContent.Data = ResponseContent.Data?.Serialize();
             return Json(ResponseContent);
         }

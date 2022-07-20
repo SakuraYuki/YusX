@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using YusX.Core.Constracts;
 using YusX.Core.Enums;
-using YusX.Core.ManageUser;
+using YusX.Core.Managers;
 
 namespace YusX.Core.Extensions
 {
@@ -15,7 +15,7 @@ namespace YusX.Core.Extensions
         /// <summary>
         /// 应用运行系统是否为 Windows
         /// </summary>
-        public static bool IsWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+        public static bool IsWindows = RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows);
 
         /// <summary>
         /// 将路径转换为适合当前平台的格式
@@ -50,7 +50,7 @@ namespace YusX.Core.Extensions
                 return null;
             }
 
-            userId ??= UserContext.Current.UserInfo.UserId;
+            userId ??= UserManager.Current.UserInfo.UserId;
             return $"{urlPath}{(urlPath.IndexOf("?token") > 0 ? "&" : "?")}uid={userId}&rt_v={DateTime.Now:HHmmss}";
         }
 

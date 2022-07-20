@@ -1,6 +1,4 @@
 ﻿using Autofac;
-using Dapper;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyModel;
@@ -11,12 +9,11 @@ using System.Reflection;
 using System.Runtime.Loader;
 using YusX.Core.Configuration;
 using YusX.Core.Constracts;
-using YusX.Core.Dapper;
 using YusX.Core.DbAccessor;
-using YusX.Core.EFDbContext;
 using YusX.Core.Enums;
 using YusX.Core.Providers;
 using YusX.Core.Providers.Cache;
+using YusX.Core.Providers.Validator;
 
 namespace YusX.Core.Extensions
 {
@@ -68,32 +65,22 @@ namespace YusX.Core.Extensions
             #endregion 注入全部可注入对象
 
             // 注入用户上下文
-            builder.RegisterType<ManageUser.UserContext>().InstancePerLifetimeScope();
+            builder.RegisterType<ManageUser.UserManager>().InstancePerLifetimeScope();
 
             // 注入接口动作检查者
             builder.RegisterType<Services.ActionObserver>().InstancePerLifetimeScope();
 
             // 注入模型验证器
-            builder.RegisterType<ObjectActionValidator.ObjectModelValidatorState>().InstancePerLifetimeScope();
+            builder.RegisterType<ModelValidatorState>().InstancePerLifetimeScope();
 
             #region 注入数据库上下文
 
             string connectionString = DbProvider.GetConnectionString(null);
             if (DbInfo.Name.EqualsIgnoreCase(DbCurrentType.MySql))
             {
-                // 加入Dapper对于MySQL中Guid字段的支持
-                SqlMapper.AddTypeHandler(new DapperParseGuidTypeHandler());
-                SqlMapper.RemoveTypeMap(typeof(Guid?));
-
-                services.AddDbContextPool<YusXContext>(optionsBuilder => optionsBuilder.UseMySql(connectionString), 64);
-            }
-            else if (DbInfo.Name.EqualsIgnoreCase(DbCurrentType.PgSql))
-            {
-                services.AddDbContextPool<YusXContext>(optionsBuilder => optionsBuilder.UseNpgsql(connectionString), 64);
             }
             else
             {
-                services.AddDbContextPool<YusXContext>(optionsBuilder => optionsBuilder.UseSqlServer(connectionString), 64);
             }
 
             #endregion 注入数据库上下文

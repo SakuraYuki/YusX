@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using YusX.Core.Extensions;
-using YusX.Core.Validators;
 using YusX.Entity.System;
 
 namespace YusX.Core.Providers.Validator

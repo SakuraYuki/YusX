@@ -8,7 +8,7 @@
         /// <summary>
         /// 数据库类型
         /// </summary>
-        public string DBType { get; set; }
+        public string DbType { get; set; }
 
         /// <summary>
         /// 数据库连接字符串

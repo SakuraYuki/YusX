@@ -22,7 +22,7 @@ namespace YusX.Core.Utilities
         /// <returns></returns>
         public static string IssueJwt(UserInfo userInfo)
         {
-            var expireMinutes = ManageUser.UserContext.MenuType == 1
+            var expireMinutes = ManageUser.UserManager.MenuType == 1
                 ? AppSetting.AppExpMinutes
                 : AppSetting.ExpMinutes;
             var expireTimestamp = DateTime.Now.AddMinutes(expireMinutes).ToUnixTimestamp();

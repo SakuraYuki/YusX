@@ -6,22 +6,22 @@
     public class Secret
     {
         /// <summary>
-        /// 用户密码加密key
+        /// 用户密码加密 Key
         /// </summary>
         public string User { get; set; }
 
         /// <summary>
-        /// 数据库加密key
+        /// 数据库加密 Key
         /// </summary>
-        public string DB { get; set; }
+        public string Db { get; set; }
 
         /// <summary>
-        /// redis加密key 
+        /// Redis 加密 Key 
         /// </summary>
         public string Redis { get; set; }
 
         /// <summary>
-        /// jwt加密key
+        /// JWT 加密 Key
         /// </summary>
         public string JWT { get; set; }
 
@@ -33,6 +33,5 @@
         /// 导出文件加密key
         /// </summary>
         public string ExportFile = "C5ABA9E202D94C13A3CB66002BF77FAF";
-
     }
 }

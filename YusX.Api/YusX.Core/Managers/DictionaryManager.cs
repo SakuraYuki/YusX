@@ -8,7 +8,7 @@ using YusX.Core.Providers.Cache;
 using YusX.Core.Services;
 using YusX.Entity.Domain;
 
-namespace YusX.Core.Dictionaries
+namespace YusX.Core.Managers
 {
     public static class DictionaryManager
     {
@@ -45,7 +45,7 @@ namespace YusX.Core.Dictionaries
                 }
                 catch (Exception ex)
                 {
-                    ApiLogger.Error($"字典执行sql异常,sql:{sql},异常信息：{ex.Message + ex.StackTrace}");
+                    LogProvider.Error($"字典执行sql异常,sql:{sql},异常信息：{ex.Message + ex.StackTrace}");
                     throw ex;
                     //  Console.WriteLine(ex.Message);
                     // return null;
@@ -56,7 +56,7 @@ namespace YusX.Core.Dictionaries
                 if (executeSql)
                 {
                     //  2020.05.01增加根据用户信息加载字典数据源sql
-                    string sql = DictionaryHandler.GetCustomDBSql(item.DictNo, item.DbSql);
+                    string sql = GetCustomDBSql(item.DictNo, item.DbSql);
                     if (!string.IsNullOrEmpty(item.DbSql))
                     {
                         item.DictionaryItems = query(sql);
@@ -64,6 +64,58 @@ namespace YusX.Core.Dictionaries
                 }
                 yield return item;
             }
+        }
+
+        /// <summary>
+        /// 获取自定义数据源sql
+        /// </summary>
+        /// <param name="dicNo"></param>
+        /// <param name="originalSql"></param>
+        /// <returns></returns>
+        public static string GetCustomDBSql(string dicNo, string originalSql)
+        {
+            switch (dicNo)
+            {
+                case "CommonRoleList":
+                    originalSql = GetRolesSql(originalSql);
+                    break;
+                case "CommonRoleTree":
+                    originalSql = GetRolesSql();
+                    break;
+                default:
+                    break;
+            }
+            return originalSql;
+        }
+
+        /// <summary>
+        /// 2020.05.24增加绑定table表时，获取所有的角色列表
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="originalSql"></param>
+        /// <returns></returns>
+        public static string GetRolesSql()
+        {
+            return $@"SELECT RoleId AS 'key',RoleName AS 'value' FROM Sys_Role WHERE Enable=1 ";
+        }
+
+        /// <summary>
+        /// 获取解决的数据源，只能看到自己与下级所有角色
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="originalSql"></param>
+        /// <returns></returns>
+        public static string GetRolesSql(string originalSql)
+        {
+            if (ManageUser.UserManager.Current.IsSuperAdmin)
+            {
+                return originalSql;
+            }
+            int currnetRoleId = ManageUser.UserManager.Current.RoleId;
+            List<int> roleIds = RoleManager.GetAllChildrenIds(currnetRoleId);
+            roleIds.Add(currnetRoleId);
+            var sql = $@"SELECT Role_Id AS 'key',RoleName AS 'value' FROM Sys_Role WHERE Enable=1 AND Role_Id IN ({string.Join(',', roleIds)})";
+            return sql;
         }
 
         /// <summary>

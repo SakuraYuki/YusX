@@ -2,7 +2,6 @@
 using System.Collections.Concurrent;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -12,11 +11,12 @@ using YusX.Core.Configuration;
 using YusX.Core.DbAccessor;
 using YusX.Core.Enums;
 using YusX.Core.Extensions;
-using YusX.Core.ManageUser;
+using YusX.Core.Managers;
+using YusX.Core.Services;
 using YusX.Core.Utilities;
 using YusX.Entity.Domain;
 
-namespace YusX.Core.Services
+namespace YusX.Core.Providers.Logger
 {
     /// <summary>
     /// API 日志记录器
@@ -39,7 +39,7 @@ namespace YusX.Core.Services
         /// <summary>
         /// 日志路径
         /// </summary>
-        private static readonly string _logPath = Path.Combine(AppSetting.DownloadPath, "Logger", "Queue").MapPlatformPath();
+        private static readonly string _logPath = System.IO.Path.Combine(AppSetting.DownloadPath, "Logs", "Api").MapPlatformPath();
 
         /// <summary>
         /// 日志队列
@@ -165,7 +165,7 @@ namespace YusX.Core.Services
                 catch (Exception ex)
                 {
                     Console.WriteLine($"日志批量写入数据时出错：{ex.Message}");
-                    RecordErrorLog(ex.Message + ex.StackTrace + ex.Source);
+                    FileLogger.Error(ex.Message + ex.StackTrace + ex.Source);
                     queueTable.Clear();
                 }
             }
@@ -207,19 +207,28 @@ namespace YusX.Core.Services
             Sys_ApiLog log = null;
             try
             {
-                var context = HttpContext.Current;
+                var context = App.HttpContext;
+
+                // 不存在上下文则记录到本地日志文件
+                if (context == null)
+                {
+                    var content = $"未获取到请求上下文，[Type]{type}，[Request]{reqParam}，[Response]{respData}，[ResponseStatus]{status}";
+                    if (ex != null)
+                    {
+                        content += $"，[Ex]{ex}";
+                    }
+                    FileLogger.Info(content);
+                    return;
+                }
+
+                // 不处理 OPTIONS 请求
                 if (context.Request.Method == "OPTIONS")
                 {
                     return;
                 }
 
                 var observer = context.RequestServices.GetService(typeof(ActionObserver)) as ActionObserver;
-                if (context == null)
-                {
-                    RecordErrorLog($"未获取到请求上下文，[Type]{type}，[Request]{reqParam}，[Response]{respData}，[ResponseStatus]{status}，[Ex]{ex}");
-                    return;
-                }
-                var userInfo = UserContext.Current.UserInfo;
+                var userInfo = UserManager.Current.UserInfo;
                 log = new Sys_ApiLog()
                 {
                     BeginDate = observer.RequestTime,
@@ -246,31 +255,11 @@ namespace YusX.Core.Services
                         Request = reqParam,
                         Response = respData,
                         ResponseStatus = (int)status,
-                        ExceptionInfo = ex + exception.Message
+                        ExceptionInfo = exception.Format()
                     };
                 }
             }
             _logQueue.Enqueue(log);
-        }
-
-        /// <summary>
-        /// 将错误内容记录到本地文件中
-        /// </summary>
-        /// <param name="message">错误内容</param>
-        private static void RecordErrorLog(string message)
-        {
-            try
-            {
-                FileHelper.WriteFile(
-                    path: Path.Combine(_logPath, "Errors"),
-                    fileName: $"{DateTime.Now:yyyyMMdd}.log",
-                    content: message + "\r\n",
-                    append: true);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"API错误日志写入文件时出错：{ex.Message}");
-            }
         }
 
         /// <summary>

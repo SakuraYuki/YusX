@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
-using YusX.Core.Validator;
+using YusX.Core.Extensions;
 
 namespace YusX.Core.Filters
 {
@@ -8,12 +8,11 @@ namespace YusX.Core.Filters
         public void OnActionExecuting(ActionExecutingContext context)
         {
             // 验证方法参数
-            context.ActionParamsValidator();
+            context.ValidationParameter();
         }
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
-
         }
     }
 }

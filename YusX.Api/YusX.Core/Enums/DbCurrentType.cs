@@ -17,9 +17,5 @@
         /// SQL Server
         /// </summary>
         MsSql = 2,
-        /// <summary>
-        /// PostgreSQL
-        /// </summary>
-        PgSql = 3
     }
 }

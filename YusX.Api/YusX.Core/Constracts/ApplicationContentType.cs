@@ -1,7 +1,7 @@
 ﻿namespace YusX.Core.Constracts
 {
     /// <summary>
-    /// 程序内容类型
+    /// 应用内容类型
     /// </summary>
     public class ApplicationContentType
     {

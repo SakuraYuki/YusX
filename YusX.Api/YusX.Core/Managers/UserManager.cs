@@ -13,40 +13,38 @@ using YusX.Core.Providers.Cache;
 using YusX.Entity.Domain;
 using YusX.Entity.System;
 
-namespace YusX.Core.ManageUser
+namespace YusX.Core.Managers
 {
-    public class UserContext
+    /// <summary>
+    /// 用户管理器
+    /// </summary>
+    public class UserManager
     {
+        /// <summary>
+        /// 角色权限的版本号
+        /// </summary>
+        private static readonly Dictionary<int, string> rolePermissionsVersion = new Dictionary<int, string>();
+
+        /// <summary>
+        /// 每个角色ID对应的菜单权限（已做静态化处理）
+        /// 每次获取权限时用当前服务器的版本号与redis/memory缓存的版本比较,如果不同会重新刷新缓存
+        /// </summary>
+        private static readonly Dictionary<int, List<Permissions>> rolePermissions = new Dictionary<int, List<Permissions>>();
+
+        /// <summary>
+        /// 获取角色权限时通过安全字典锁定的角色id
+        /// </summary>
+        private static ConcurrentDictionary<string, object> objKeyValue = new ConcurrentDictionary<string, object>();
+
+        private static ICacheService CacheService => App.GetService<ICacheService>();
+
         /// <summary>
         /// 为了尽量减少redis或Memory读取,保证执行效率,将UserContext注入到DI，
         /// 每个UserContext的属性至多读取一次redis或Memory缓存从而提高查询效率
         /// </summary>
-        public static UserContext Current
-        {
-            get
-            {
-                return Context.RequestServices.GetService(typeof(UserContext)) as UserContext;
-            }
-        }
+        public static UserManager Current => App.GetService<UserManager>();
 
-        private static Microsoft.AspNetCore.Http.HttpContext Context
-        {
-            get
-            {
-                return Utilities.HttpContext.Current;
-            }
-        }
-
-        private static ICacheService CacheService
-        {
-            get { return GetService<ICacheService>(); }
-        }
-
-        private static T GetService<T>() where T : class
-        {
-            return AutofacContainerModule.GetService<T>();
-        }
-
+        private UserInfo _userInfo;
         public UserInfo UserInfo
         {
             get
@@ -59,23 +57,15 @@ namespace YusX.Core.ManageUser
             }
         }
 
-        private UserInfo _userInfo { get; set; }
+        /// <summary>
+        /// 角色ID为1的默认为超级管理员
+        /// </summary>
+        public bool IsSuperAdmin => IsRoleIdSuperAdmin(RoleId);
 
         /// <summary>
         /// 角色ID为1的默认为超级管理员
         /// </summary>
-        public bool IsSuperAdmin
-        {
-            get { return IsRoleIdSuperAdmin(this.RoleId); }
-        }
-
-        /// <summary>
-        /// 角色ID为1的默认为超级管理员
-        /// </summary>
-        public static bool IsRoleIdSuperAdmin(int roleId)
-        {
-            return roleId == 1;
-        }
+        public static bool IsRoleIdSuperAdmin(int roleId) => roleId == 1;
 
         public UserInfo GetUserInfo(int userId)
         {
@@ -106,22 +96,6 @@ namespace YusX.Core.ManageUser
             }
             return _userInfo ?? new UserInfo();
         }
-
-        /// <summary>
-        /// 获取角色权限时通过安全字典锁定的角色id
-        /// </summary>
-        private static ConcurrentDictionary<string, object> objKeyValue = new ConcurrentDictionary<string, object>();
-
-        /// <summary>
-        /// 角色权限的版本号
-        /// </summary>
-        private static readonly Dictionary<int, string> rolePermissionsVersion = new Dictionary<int, string>();
-
-        /// <summary>
-        /// 每个角色ID对应的菜单权限（已做静态化处理）
-        /// 每次获取权限时用当前服务器的版本号与redis/memory缓存的版本比较,如果不同会重新刷新缓存
-        /// </summary>
-        private static readonly Dictionary<int, List<Permissions>> rolePermissions = new Dictionary<int, List<Permissions>>();
 
         /// <summary>
         /// 获取用户所有的菜单权限
@@ -164,13 +138,7 @@ namespace YusX.Core.ManageUser
         /// 2022.03.26
         /// 菜单类型1:移动端，0:PC端
         /// </summary>
-        public static int MenuType
-        {
-            get
-            {
-                return Context.Request.Headers.ContainsKey("uapp") ? 1 : 0;
-            }
-        }
+        public static int MenuType => App.HttpContext.Request.Headers.ContainsKey("uapp") ? 1 : 0;
 
         /// <summary>
         /// 自定条件查询权限
@@ -336,14 +304,7 @@ namespace YusX.Core.ManageUser
             return ExistsPermissions(tableName, actionPermission.ToString(), roleId);
         }
 
-        public int UserId
-        {
-            get
-            {
-                return (Context.User.FindFirstValue(JwtRegisteredClaimNames.Jti)
-                    ?? Context.User.FindFirstValue(ClaimTypes.NameIdentifier)).GetInt();
-            }
-        }
+        public int UserId => (App.User?.FindFirstValue(JwtRegisteredClaimNames.Jti) ?? App.User?.FindFirstValue(ClaimTypes.NameIdentifier)).GetInt();
 
         public string Username => UserInfo.Username;
 
@@ -351,18 +312,13 @@ namespace YusX.Core.ManageUser
 
         public string Token => UserInfo.Token;
 
-        public int RoleId
-        {
-            get { return UserInfo.Roles?.FirstOrDefault().Key ?? 0; }
-        }
+        public int RoleId => UserInfo.Roles?.FirstOrDefault().Key ?? 0;
 
         /// <summary>
         /// 注销指定用户
         /// </summary>
         /// <param name="userId">用户ID</param>
         public void Logout(int userId)
-        {
-            CacheService.Remove(userId.GetUserIdKey());
-        }
+            => CacheService.Remove(userId.GetUserIdKey());
     }
 }

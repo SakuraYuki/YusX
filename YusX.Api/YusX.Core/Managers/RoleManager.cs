@@ -2,39 +2,50 @@
 using System.Collections.Generic;
 using System.Linq;
 using YusX.Core.DbAccessor;
-using YusX.Core.ManageUser;
 using YusX.Core.Providers;
 using YusX.Core.Providers.Cache;
 using YusX.Core.Services;
 using YusX.Entity.Domain;
 
-namespace YusX.Core.UserManager
+namespace YusX.Core.Managers
 {
-    public static class RoleContext
+    /// <summary>
+    /// 角色管理器
+    /// </summary>
+    public static class RoleManager
     {
-        private static object _RoleObj = new object();
-
-        private static string _RoleVersionn = "";
-
         public const string Key = "inernalRole";
 
-        private static List<RoleNodes> _roles { get; set; }
+        private static readonly object _locker = new object();
+
+        private static string _roleVersion = string.Empty;
+
+        private static List<RoleNodes> Roles { get; set; }
 
         public static List<RoleNodes> GetAllRoleId()
         {
-            ICacheService cacheService = AutofacContainerModule.GetService<ICacheService>();
+            var cacheService = App.GetService<ICacheService>();
             //每次比较缓存是否更新过，如果更新则重新获取数据
-            if (_roles != null && _RoleVersionn == cacheService.Get(Key))
+            if (Roles != null && _roleVersion == cacheService.Get(Key))
             {
-                return _roles;
+                return Roles;
             }
-            lock (_RoleObj)
+            lock (_locker)
             {
-                if (_RoleVersionn != "" && _roles != null && _RoleVersionn == cacheService.Get(Key)) return _roles;
-                _roles = DbProvider.DbContext
+                if (_roleVersion != "" && Roles != null && _roleVersion == cacheService.Get(Key))
+                {
+                    return Roles;
+                }
+
+                Roles = DbProvider.DbContext
                     .Set<Sys_Role>()
                     .Where(x => x.Enable)
-                    .Select(s => new RoleNodes() { Id = s.RoleId, ParentId = s.ParentId, RoleName = s.Name })
+                    .Select(s => new RoleNodes()
+                    {
+                        Id = s.RoleId,
+                        ParentId = s.ParentId,
+                        RoleName = s.Name,
+                    })
                     .ToList();
 
                 string cacheVersion = cacheService.Get(Key);
@@ -45,15 +56,15 @@ namespace YusX.Core.UserManager
                 }
                 else
                 {
-                    _RoleVersionn = cacheVersion;
+                    _roleVersion = cacheVersion;
                 }
             }
-            return _roles;
+            return Roles;
         }
 
         public static void Refresh()
         {
-            AutofacContainerModule.GetService<ICacheService>().Remove(Key);
+            App.GetService<ICacheService>().Remove(Key);
         }
 
         /// <summary>
@@ -64,14 +75,22 @@ namespace YusX.Core.UserManager
         /// <returns></returns>
         public static List<RoleNodes> GetAllChildren(int roleId)
         {
-            if (roleId <= 0) return null;
+            if (roleId <= 0)
+            {
+                return null;
+            }
+
             var roles = GetAllRoleId();
-            if (UserContext.IsRoleIdSuperAdmin(roleId)) return roles;
-            Dictionary<int, bool> completedRoles = new Dictionary<int, bool>();
-            List<RoleNodes> rolesChildren = new List<RoleNodes>();
-            var list= GetChildren(roles, rolesChildren, roleId, completedRoles);
+            if (UserManager.IsRoleIdSuperAdmin(roleId))
+            {
+                return roles;
+            }
+
+            var completedRoles = new Dictionary<int, bool>();
+            var rolesChildren = new List<RoleNodes>();
+            var list = GetChildren(roles, rolesChildren, roleId, completedRoles);
             //2021.07.11增加无限递归异常数据移除当前节点
-            if (list.Any(x=>x.Id==roleId))
+            if (list.Any(x => x.Id == roleId))
             {
                 return list.Where(x => x.Id != roleId).ToList();
             }
@@ -79,9 +98,7 @@ namespace YusX.Core.UserManager
         }
 
         public static List<int> GetAllChildrenIds(int roleId)
-        {
-            return GetAllChildren(roleId)?.Select(x => x.Id)?.ToList();
-        }
+            => GetAllChildren(roleId)?.Select(x => x.Id)?.ToList();
 
         /// <summary>
         /// 递归获取所有子节点权限
@@ -99,7 +116,7 @@ namespace YusX.Core.UserManager
                         if (!isWrite)
                         {
                             roles.Where(x => x.Id == roleId).FirstOrDefault().ParentId = 0;
-                            ApiLogger.Error($"获取子角色异常RoleContext,角色id:{x.Id}");
+                            LogProvider.Error($"获取子角色异常RoleContext,角色id:{x.Id}");
                             Console.WriteLine($"获取子角色异常RoleContext,角色id:{x.Id}");
                             completedRoles[x.Id] = true;
                         }
@@ -122,7 +139,7 @@ namespace YusX.Core.UserManager
         /// <returns></returns>
         public static IQueryable<int> GetCurrentAllChildUser()
         {
-            var roles = GetAllChildrenIds(UserContext.Current.RoleId);
+            var roles = GetAllChildrenIds(UserManager.Current.RoleId);
             if (roles == null)
             {
                 throw new Exception("未获取到当前角色");

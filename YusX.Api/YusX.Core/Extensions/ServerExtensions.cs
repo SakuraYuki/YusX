@@ -1,5 +1,4 @@
-﻿using YusX.Core.AutofacManager;
-using YusX.Core.Providers.Path;
+﻿using YusX.Core.Providers.Path;
 
 namespace YusX.Core.Extensions
 {
@@ -26,7 +25,7 @@ namespace YusX.Core.Extensions
         /// <returns>获取到的绝对路径，末尾没有/或\\</returns>
         public static string MapPath(this string path, bool rootPath)
         {
-            return Ioc.GetService<IPathProvider>().MapPath(path, rootPath);
+            return App.GetService<IPathProvider>().MapPath(path, rootPath);
         }
     }
 }

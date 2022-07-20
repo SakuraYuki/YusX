@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using YusX.Core.Configuration;
 using YusX.Core.Enums;
-using YusX.Core.ManageUser;
-using YusX.Core.Services;
+using YusX.Core.Extensions;
+using YusX.Core.Managers;
 using YusX.Core.Utilities;
 using YusX.Entity.Attributes;
 
@@ -20,10 +20,10 @@ namespace YusX.Core.Filters
     /// </summary>
     public class ActionPermissionFilter : IAsyncActionFilter
     {
-        public ActionPermissionFilter(ActionPermissionRequirement actionPermissionRequirement, UserContext userContext)
+        public ActionPermissionFilter(ActionPermissionRequirement actionPermissionRequirement, UserManager userContext)
         {
-            this.ResponseContent = new WebResponseContent();
-            this.actionPermission = actionPermissionRequirement;
+            ResponseContent = new WebResponseContent();
+            actionPermission = actionPermissionRequirement;
             UserContext = userContext;
         }
 
@@ -31,7 +31,7 @@ namespace YusX.Core.Filters
 
         private readonly ActionPermissionRequirement actionPermission;
 
-        private UserContext UserContext { get; set; }
+        private UserManager UserContext { get; set; }
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
@@ -40,7 +40,7 @@ namespace YusX.Core.Filters
                 await next();
                 return;
             }
-            FilterResponse.SetUnauthorizedResult(context, ResponseContent?.Message);
+            context.SetUnauthorizedResult(ResponseContent?.Message);
         }
 
         private WebResponseContent OnActionExecutionPermission(ActionExecutingContext context)
@@ -51,7 +51,7 @@ namespace YusX.Core.Filters
             //    || UserContext.Current.IsSuperAdmin
             //    )
             if (context.Filters.Any(item => item is IAllowAnonymousFilter)
-                || UserContext.Current.IsSuperAdmin)
+                || UserManager.Current.IsSuperAdmin)
                 return ResponseContent.OK();
 
             //演示环境除了admin帐号，其他帐号都不能增删改等操作
@@ -106,7 +106,7 @@ namespace YusX.Core.Filters
                  || actionAuth.Count() == 0
                  || !actionAuth.Contains(actionPermission.TableAction))
             {
-                ApiLogger.Info(ApiLogType.Authorzie, $"没有权限操作," +
+                LogProvider.Info(ApiLogType.Authorzie, $"没有权限操作," +
                     $"用户ID{UserContext.UserId}:{UserContext.UserTrueName}," +
                     $"角色ID:{UserContext.RoleId}:{UserContext.UserInfo.RoleName}," +
                     $"操作权限{actionPermission.TableName}:{actionPermission.TableAction}");
