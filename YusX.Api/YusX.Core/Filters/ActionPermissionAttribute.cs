@@ -25,12 +25,12 @@ namespace YusX.Core.Filters
             Arguments = new object[] { new ActionPermissionRequirement() { RoleIds = new int[] { roleId }, IsApi = isApi } };
         }
 
-        public ActionPermissionAttribute(ActionRolePermission actionRolePermission, bool isApi = false)
+        public ActionPermissionAttribute(ActionPermissionRole actionRolePermission, bool isApi = false)
         : base(typeof(ActionPermissionFilter))
         {
-            Array array = Enum.GetValues(typeof(ActionRolePermission));
+            Array array = Enum.GetValues(typeof(ActionPermissionRole));
             List<int> roles = new List<int>();
-            foreach (ActionRolePermission item in array)
+            foreach (ActionPermissionRole item in array)
             {
                 if (actionRolePermission.HasFlag(item))
                 {

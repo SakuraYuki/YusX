@@ -22,7 +22,7 @@ namespace YusX.Core.Filters
         /// 限定角色访问
         /// </summary>
         /// <param name="roles"></param>
-        public ApiActionPermissionAttribute(ActionRolePermission actionRolePermission)
+        public ApiActionPermissionAttribute(ActionPermissionRole actionRolePermission)
          : base(actionRolePermission, true)
         {
 

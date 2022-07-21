@@ -1,9 +1,9 @@
 ﻿namespace YusX.Core.Enums
 {
     /// <summary>
-    /// 动作角色权限
+    /// 动作权限角色
     /// </summary>
-    public enum ActionRolePermission
+    public enum ActionPermissionRole
     {
         /// <summary>
         /// 超级管理员

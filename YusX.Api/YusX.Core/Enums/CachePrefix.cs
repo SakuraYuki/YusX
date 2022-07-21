@@ -9,7 +9,9 @@
         /// 角色
         /// </summary>
         Role = 0,
-        //UserIDkey
+        /// <summary>
+        /// 用户ID
+        /// </summary>
         UID = 1,
         /// <summary>
         /// 头像KEY
