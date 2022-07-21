@@ -55,7 +55,9 @@ namespace YusX.Core.Extensions
         /// <returns></returns>
         public static T GetService<T>(this HttpContext context)
             where T : class
-            => context.RequestServices.GetService(typeof(T)) as T;
+        {
+            return context.RequestServices.GetService(typeof(T)) as T;
+        }
 
         /// <summary>
         /// 获取请求用户的网络地址(即 IP 地址)
@@ -125,7 +127,9 @@ namespace YusX.Core.Extensions
         /// <returns></returns>
         public static T Request<T>(this HttpContext context, string parameter)
             where T : class
-            => context.RequestString(parameter)?.DeserializeObject<T>();
+        {
+            return context.RequestString(parameter)?.DeserializeObject<T>();
+        }
 
         /// <summary>
         /// 获取请求参数，并得到参数系列化后的字符串

@@ -32,11 +32,13 @@ namespace YusX.Core.Extensions
             }
             return false;
         }
+
         public static Dictionary<string, object> ReaderToDictionary(this IDataReader Reader)
         {
             List<Dictionary<string, object>> rowList = Reader.ReaderToDictionaryList();
             return rowList.Count() > 0 ? rowList[0] : null;
         }
+
         /// <summary>
         /// IDataReader转换成DictionaryList
         /// </summary>
@@ -70,10 +72,12 @@ namespace YusX.Core.Extensions
         {
             return new List<Dictionary<string, object>>() { dic }.DicToList<T>().ToList()[0];
         }
+
         public static List<T> DicToList<T>(this List<Dictionary<string, object>> dicList)
         {
             return dicList.DicToIEnumerable<T>().ToList();
         }
+
         public static object DicToList(this List<Dictionary<string, object>> dicList, Type type)
         {
             return typeof(ObjectExtensions).GetMethod("DicToList")
@@ -95,6 +99,7 @@ namespace YusX.Core.Extensions
                 yield return model;
             }
         }
+
         /// <summary>
         /// IDataReader转换成List
         /// </summary>
@@ -138,7 +143,6 @@ namespace YusX.Core.Extensions
             }
             return objectList;
         }
-
 
         public static object ChangeType(this object convertibleValue, Type type)
         {
@@ -525,8 +529,6 @@ namespace YusX.Core.Extensions
             return info;
         }
 
-
-
         /// <summary>
         /// 将object转换为byte类型信息。
         /// </summary>
@@ -826,8 +828,6 @@ namespace YusX.Core.Extensions
 
         private static Regex IntRegex = new Regex("(?<info>-?\\d+)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
-
-
         private static Regex DecimalRegex = new Regex("(?<info>-?\\d+(\\.\\d+)?)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
@@ -844,8 +844,6 @@ namespace YusX.Core.Extensions
             }
             return info;
         }
-
-
 
         /// <summary>
         /// 从object中获取正数信息。
@@ -1098,7 +1096,6 @@ namespace YusX.Core.Extensions
             return Regex.Replace(s.ToString(string.Empty), @"[\\/:*?<>|]", "_").Replace("\t", " ").Replace("\r\n", " ").Replace("\"", " ");
         }
 
-
         /// <summary>
         /// 获取默认非空字符串。
         /// </summary>
@@ -1195,25 +1192,21 @@ namespace YusX.Core.Extensions
         }
     }
 
-
-
     /// <summary>
     /// 标记。
     /// </summary>
     public enum Flag
     {
         /// <summary>
-        /// 默认。
+        /// 默认
         /// </summary>
         Default,
-
         /// <summary>
-        /// 真。
+        /// 真
         /// </summary>
         True,
-
         /// <summary>
-        /// 假。
+        /// 假
         /// </summary>
         False
     }

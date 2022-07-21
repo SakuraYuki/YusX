@@ -210,7 +210,9 @@ namespace YusX.Core.Controllers.Basic
         /// <param name="parameters"></param>
         /// <returns></returns>
         private object InvokeService(string methodName, object[] parameters)
-            => service.GetType().GetMethod(methodName).Invoke(service, parameters);
+        {
+            return service.GetType().GetMethod(methodName).Invoke(service, parameters);
+        }
 
         /// <summary>
         /// 调用service方法
@@ -220,6 +222,8 @@ namespace YusX.Core.Controllers.Basic
         /// <param name="parameters"></param>
         /// <returns></returns>
         private object InvokeService(string methodName, Type[] types, object[] parameters)
-            => service.GetType().GetMethod(methodName, types).Invoke(service, parameters);
+        {
+            return service.GetType().GetMethod(methodName, types).Invoke(service, parameters);
+        }
     }
 }

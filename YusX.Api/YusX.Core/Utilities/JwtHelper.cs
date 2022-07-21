@@ -69,7 +69,9 @@ namespace YusX.Core.Utilities
         /// <param name="jwtStr">JWT 令牌</param>
         /// <returns></returns>
         public static bool IsExpired(string jwtStr)
-            => GetExpireTime(jwtStr) < DateTime.Now;
+        {
+            return GetExpireTime(jwtStr) < DateTime.Now;
+        }
 
         /// <summary>
         /// 获取该 JWT 令牌的用户ID

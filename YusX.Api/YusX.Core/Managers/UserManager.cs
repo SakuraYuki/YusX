@@ -65,7 +65,10 @@ namespace YusX.Core.Managers
         /// <summary>
         /// 角色ID为1的默认为超级管理员
         /// </summary>
-        public static bool IsRoleIdSuperAdmin(int roleId) => roleId == 1;
+        public static bool IsRoleIdSuperAdmin(int roleId)
+        {
+            return roleId == 1;
+        }
 
         public UserInfo GetUserInfo(int userId)
         {
@@ -319,6 +322,8 @@ namespace YusX.Core.Managers
         /// </summary>
         /// <param name="userId">用户ID</param>
         public void Logout(int userId)
-            => CacheService.Remove(userId.GetUserIdKey());
+        {
+            CacheService.Remove(userId.GetUserIdKey());
+        }
     }
 }

@@ -53,7 +53,7 @@ namespace YusX.Core.Extensions
                     Message = message
                 }.Serialize(),
                 ContentType = ApplicationContentType.JSON,
-                StatusCode = (int)HttpStatusCode.Unauthorized
+                StatusCode = (int)HttpStatusCode.OK,
             };
         }
 
@@ -63,7 +63,9 @@ namespace YusX.Core.Extensions
         /// <param name="context">动作上下文</param>
         /// <returns></returns>
         public static bool ExistsModelParameterValidator(this ActionExecutingContext context)
-            => context.ActionDescriptor.EndpointMetadata.Any(item => item is ValidationModelParameterFilter);
+        {
+            return context.ActionDescriptor.EndpointMetadata.Any(item => item is ValidationModelParameterFilter);
+        }
 
         /// <summary>
         /// 获取当前动作上下文的模型参数的全部参数名称
@@ -71,7 +73,9 @@ namespace YusX.Core.Extensions
         /// <param name="context">动作上下文</param>
         /// <returns></returns>
         public static string[] GetModelParameterNames(this ActionContext context)
-            => (context.ActionDescriptor.EndpointMetadata.FirstOrDefault(f => f is ValidationModelParameterFilter) as ValidationModelParameterFilter)?.ModelParameterNames;
+        {
+            return context.ActionDescriptor.EndpointMetadata.FirstType<ValidationModelParameterFilter>()?.ModelParameterNames;
+        }
 
         /// <summary>
         /// 获取当前动作上下文的全部普通参数选项
@@ -79,7 +83,9 @@ namespace YusX.Core.Extensions
         /// <param name="context">动作上下文</param>
         /// <returns></returns>
         public static GeneralParameterOptions[] GetGeneralParameterOptions(this ActionContext context)
-            => (context.ActionDescriptor.EndpointMetadata.FirstOrDefault(f => f is ValidationGeneralParameterFilter) as ValidationGeneralParameterFilter)?.ParameterOptions;
+        {
+            return context.ActionDescriptor.EndpointMetadata.FirstType<ValidationGeneralParameterFilter>()?.ParameterOptions;
+        }
 
         /// <summary>
         /// 验证当前动作上下文的全部方法参数

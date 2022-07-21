@@ -46,7 +46,7 @@ namespace YusX.Core.Filters
             //判断当前用户的token与缓存的token是否相同
             if (UserManager.Current.Token != fixedoken)
             {
-                context.FilterResult(HttpStatusCode.Unauthorized, "token已失效");
+                context.Unauthorized("token已失效");
             }
             return context;
         }

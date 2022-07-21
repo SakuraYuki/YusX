@@ -150,11 +150,7 @@ namespace YusX.Core.Extensions
         /// <param name="expressionType">创建表达式的类型,如:p=>p.propertyName != propertyValue 
         /// p=>p.propertyName.Contains(propertyValue)</param>
         /// <returns></returns>
-        private static Expression<Func<T, bool>> CreateExpression<T>(
-            this string propertyName,
-            object propertyValue,
-            ParameterExpression parameter,
-            LinqExpressionType expressionType)
+        private static Expression<Func<T, bool>> CreateExpression<T>(this string propertyName, object propertyValue, ParameterExpression parameter, LinqExpressionType expressionType)
         {
             Type proType = typeof(T).GetProperty(propertyName).PropertyType;
             //创建节点变量如p=>的节点p

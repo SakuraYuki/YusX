@@ -239,6 +239,8 @@ namespace YusX.Core.Extensions
         /// <param name="context">动作上下文</param>
         /// <returns></returns>
         public static ModelValidatorState GetModelValidatorState(this ActionContext context)
-            => context.HttpContext.GetService<ModelValidatorState>();
+        {
+            return context.HttpContext.GetService<ModelValidatorState>();
+        }
     }
 }

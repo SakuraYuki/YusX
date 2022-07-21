@@ -4,7 +4,7 @@ using YusX.Core.Enums;
 using YusX.Core.Extensions;
 using YusX.Core.Utilities;
 
-namespace YusX.Core.Providers.Logger
+namespace YusX.Core.Logging
 {
     /// <summary>
     /// 文件日志记录器

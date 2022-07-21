@@ -140,7 +140,9 @@ namespace YusX.Core.Providers
         }
 
         public virtual Task<List<T>> FindAsync<T>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, T>> selector)
-            => FindAsIQueryable(predicate).Select(selector).ToListAsync();
+        {
+            return FindAsIQueryable(predicate).Select(selector).ToListAsync();
+        }
 
         public virtual Task<T> FindFirstAsync<T>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, T>> selector)
         {

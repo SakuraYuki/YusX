@@ -142,6 +142,8 @@ namespace YusX.Core.Utilities
         /// <param name="items">元素数组</param>
         /// <returns></returns>
         public static T GetRandom<T>(this Random randomizer, T[] items)
-            => items[(randomizer ?? new Random()).Next(items.Length)];
+        {
+            return items[(randomizer ?? new Random()).Next(items.Length)];
+        }
     }
 }

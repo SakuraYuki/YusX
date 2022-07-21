@@ -16,7 +16,9 @@ namespace YusX.Core.Utilities
         /// <param name="path">文件路径</param>
         /// <returns>存在返回<see langword="true"/>，否则返回<see langword="false"/></returns>
         public static bool FileExists(string path)
-            => File.Exists(path.MapPlatformPath());
+        {
+            return File.Exists(path.MapPlatformPath());
+        }
 
         /// <summary>
         /// 检查目录是否存在
@@ -24,14 +26,18 @@ namespace YusX.Core.Utilities
         /// <param name="path">目录路径</param>
         /// <returns>存在返回<see langword="true"/>，否则返回<see langword="false"/></returns>
         public static bool DirectoryExists(string path)
-            => Directory.Exists(path.MapPlatformPath());
+        {
+            return Directory.Exists(path.MapPlatformPath());
+        }
 
         /// <summary>
         /// 获取当前应用的下载目录路径
         /// </summary>
         /// <returns>返回下载目录完整路径，通常为 [应用根目录]\Download\</returns>
         public static string GetCurrentDownloadPath()
-            => AppSetting.DownloadPath.MapPath();
+        {
+            return AppSetting.DownloadPath.MapPath();
+        }
 
         /// <summary>
         /// 读取文件内容

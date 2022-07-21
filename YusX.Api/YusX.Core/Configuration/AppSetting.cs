@@ -143,7 +143,9 @@ namespace YusX.Core.Configuration
         /// <param name="key">配置键，例如：section1:key1</param>
         /// <returns></returns>
         public static string GetSettingString(string key)
-            => Configuration[key];
+        {
+            return Configuration[key];
+        }
 
         /// <summary>
         /// 获取指定 Section 节点
@@ -151,6 +153,8 @@ namespace YusX.Core.Configuration
         /// <param name="key">Section 节点名称</param>
         /// <returns></returns>
         public static IConfigurationSection GetSection(string key)
-            => Configuration.GetSection(key);
+        {
+            return Configuration.GetSection(key);
+        }
     }
 }

@@ -1,8 +1,23 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Autofac;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyModel;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Loader;
+using YusX.Core.Configuration;
+using YusX.Core.Constracts;
+using YusX.Core.DbAccessor;
+using YusX.Core.Enums;
+using YusX.Core.Extensions;
+using YusX.Core.Managers;
+using YusX.Core.Providers;
+using YusX.Core.Providers.Cache;
+using YusX.Core.Providers.Validator;
 
 namespace YusX.Core
 {

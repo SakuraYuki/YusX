@@ -13,7 +13,9 @@ namespace YusX.Core.Extensions
         /// <param name="target">要转换的目标时间</param>
         /// <returns></returns>
         public static long ToJsTimestamp(this DateTime target)
-            => new DateTimeOffset(target).ToUnixTimeMilliseconds();
+        {
+            return new DateTimeOffset(target).ToUnixTimeMilliseconds();
+        }
 
         /// <summary>
         /// 获取 UNIX 时间戳
@@ -21,7 +23,9 @@ namespace YusX.Core.Extensions
         /// <param name="target">要转换的目标时间</param>
         /// <returns></returns>
         public static long ToUnixTimestamp(this DateTime target)
-            => new DateTimeOffset(target).ToUnixTimeSeconds();
+        {
+            return new DateTimeOffset(target).ToUnixTimeSeconds();
+        }
 
         /// <summary>
         /// 将毫秒值(JavaScript 时间戳)转成 C# 的 <see cref="DateTime"/> 类型
@@ -29,7 +33,9 @@ namespace YusX.Core.Extensions
         /// <param name="target">要转换的时间戳</param>
         /// <returns></returns>
         public static DateTime JsToDateTime(this long target)
-            => DateTimeOffset.FromUnixTimeMilliseconds(target).LocalDateTime;
+        {
+            return DateTimeOffset.FromUnixTimeMilliseconds(target).LocalDateTime;
+        }
 
         /// <summary>
         /// 将秒值(UNIX 时间戳)转成 C# 的 <see cref="DateTime"/> 类型
@@ -37,6 +43,8 @@ namespace YusX.Core.Extensions
         /// <param name="target">要转换的时间戳</param>
         /// <returns></returns>
         public static DateTime UnixToDateTime(this long target)
-            => DateTimeOffset.FromUnixTimeSeconds(target).LocalDateTime;
+        {
+            return DateTimeOffset.FromUnixTimeSeconds(target).LocalDateTime;
+        }
     }
 }

@@ -11,6 +11,7 @@ using YusX.Core.Configuration;
 using YusX.Core.Constracts;
 using YusX.Core.DbAccessor;
 using YusX.Core.Enums;
+using YusX.Core.Managers;
 using YusX.Core.Providers;
 using YusX.Core.Providers.Cache;
 using YusX.Core.Providers.Validator;
@@ -18,9 +19,9 @@ using YusX.Core.Providers.Validator;
 namespace YusX.Core.Extensions
 {
     /// <summary>
-    /// Autofac扩展
+    /// Autofac 扩展
     /// </summary>
-    public static class AutofacContainerModuleExtensions
+    public static class AutofacExtensions
     {
         /// <summary>
         /// 注入Autofac模块
@@ -65,7 +66,7 @@ namespace YusX.Core.Extensions
             #endregion 注入全部可注入对象
 
             // 注入用户上下文
-            builder.RegisterType<ManageUser.UserManager>().InstancePerLifetimeScope();
+            builder.RegisterType<UserManager>().InstancePerLifetimeScope();
 
             // 注入接口动作检查者
             builder.RegisterType<Services.ActionObserver>().InstancePerLifetimeScope();

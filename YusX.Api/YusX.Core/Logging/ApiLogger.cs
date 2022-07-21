@@ -16,7 +16,7 @@ using YusX.Core.Services;
 using YusX.Core.Utilities;
 using YusX.Entity.Domain;
 
-namespace YusX.Core.Providers.Logger
+namespace YusX.Core.Logging
 {
     /// <summary>
     /// API 日志记录器
@@ -56,7 +56,9 @@ namespace YusX.Core.Providers.Logger
         /// </summary>
         /// <param name="message">日志消息</param>
         public static void Info(string message)
-            => Info(ApiLogType.Info, message);
+        {
+            Info(ApiLogType.Info, message);
+        }
 
         /// <summary>
         /// 记录指定类型的信息日志
@@ -64,7 +66,9 @@ namespace YusX.Core.Providers.Logger
         /// <param name="type">日志类型</param>
         /// <param name="message">日志消息</param>
         public static void Info(ApiLogType type, string message = null)
-            => Info(type, message, null);
+        {
+            Info(type, message, null);
+        }
 
         /// <summary>
         /// 记录指定类型的信息日志
@@ -74,14 +78,18 @@ namespace YusX.Core.Providers.Logger
         /// <param name="respData">响应数据</param>
         /// <param name="ex">异常信息</param>
         public static void Info(ApiLogType type, string reqParam, string respData, Exception ex = null)
-            => LogEnqueue(type, reqParam, respData, ex: ex, status: ApiResponseStatus.Info);
+        {
+            LogEnqueue(type, reqParam, respData, ex: ex, status: ApiResponseStatus.Info);
+        }
 
         /// <summary>
         /// 记录成功日志
         /// </summary>
         /// <param name="message">日志消息</param>
         public static void OK(string message)
-            => OK(ApiLogType.Success, message);
+        {
+            OK(ApiLogType.Success, message);
+        }
 
         /// <summary>
         /// 记录指定类型的成功日志
@@ -89,7 +97,9 @@ namespace YusX.Core.Providers.Logger
         /// <param name="type">日志类型</param>
         /// <param name="message">日志消息</param>
         public static void OK(ApiLogType type, string message = null)
-            => OK(type, message, null);
+        {
+            OK(type, message, null);
+        }
 
         /// <summary>
         /// 记录指定类型的成功日志
@@ -98,14 +108,18 @@ namespace YusX.Core.Providers.Logger
         /// <param name="reqParam">请求参数</param>
         /// <param name="respData">响应数据</param>
         public static void OK(ApiLogType type, string reqParam, string respData)
-            => LogEnqueue(type, reqParam, respData, status: ApiResponseStatus.Success);
+        {
+            LogEnqueue(type, reqParam, respData, status: ApiResponseStatus.Success);
+        }
 
         /// <summary>
         /// 记录错误日志
         /// </summary>
         /// <param name="message">日志消息</param>
         public static void Error(string message)
-            => Error(ApiLogType.Error, message);
+        {
+            Error(ApiLogType.Error, message);
+        }
 
         /// <summary>
         /// 记录指定类型的错误日志
@@ -113,7 +127,9 @@ namespace YusX.Core.Providers.Logger
         /// <param name="type">日志类型</param>
         /// <param name="message">日志消息</param>
         public static void Error(ApiLogType type, string message, Exception ex = null)
-            => Error(type, message, null, ex: ex);
+        {
+            Error(type, message, null, ex: ex);
+        }
 
         /// <summary>
         /// 记录指定类型的错误日志
@@ -123,7 +139,9 @@ namespace YusX.Core.Providers.Logger
         /// <param name="respData">响应数据</param>
         /// <param name="ex">异常信息</param>
         public static void Error(ApiLogType type, string reqParam, string respData, Exception ex = null)
-            => LogEnqueue(type, reqParam, respData, status: ApiResponseStatus.Error, ex: ex);
+        {
+            LogEnqueue(type, reqParam, respData, status: ApiResponseStatus.Error, ex: ex);
+        }
 
         /// <summary>
         /// 启动并持续写入队列中的日志

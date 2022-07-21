@@ -52,14 +52,18 @@ namespace YusX.Core.Utilities
         /// </summary>
         /// <returns></returns>
         public static long GetUnixTimestamp()
-            => new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds();
+        {
+            return new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds();
+        }
 
         /// <summary>
         /// 获取当前时间的 JavaScript 时间戳(毫秒)
         /// </summary>
         /// <returns></returns>
         public static long GetJsTimestamp()
-            => new DateTimeOffset(DateTime.Now).ToUnixTimeMilliseconds();
+        {
+            return new DateTimeOffset(DateTime.Now).ToUnixTimeMilliseconds();
+        }
     }
 }
 

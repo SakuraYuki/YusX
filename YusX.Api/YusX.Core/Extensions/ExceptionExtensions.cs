@@ -99,6 +99,11 @@ namespace YusX.Core.Extensions
             return GetInnerException(ex.InnerException, deep);
         }
 
+        /// <summary>
+        /// 解析堆跟踪信息
+        /// </summary>
+        /// <param name="stackTrace">堆跟踪信息，例：<see cref="Exception.StackTrace"/></param>
+        /// <returns></returns>
         private static List<StackTraceInfo> GetStackTraceInfo(string stackTrace)
         {
             var stackTraceInfos = new List<StackTraceInfo>();

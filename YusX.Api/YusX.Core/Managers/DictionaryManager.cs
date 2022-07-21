@@ -23,7 +23,9 @@ namespace YusX.Core.Managers
         public static List<Sys_Dictionary> Dictionaries => GetAllDictionary();
 
         public static Sys_Dictionary GetDictionary(string dicNo)
-            => GetDictionaries(new string[] { dicNo }).FirstOrDefault();
+        {
+            return GetDictionaries(new string[] { dicNo }).FirstOrDefault();
+        }
 
         /// <summary>
         /// 

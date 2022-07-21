@@ -98,7 +98,9 @@ namespace YusX.Core.Managers
         }
 
         public static List<int> GetAllChildrenIds(int roleId)
-            => GetAllChildren(roleId)?.Select(x => x.Id)?.ToList();
+        {
+            return GetAllChildren(roleId)?.Select(x => x.Id)?.ToList();
+        }
 
         /// <summary>
         /// 递归获取所有子节点权限
