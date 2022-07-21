@@ -7,14 +7,14 @@ using System;
 namespace YusX.Core
 {
     /// <summary>
-    /// YusX 内部程序核心类
+    /// YusX 内部应用核心类
     /// </summary>
     internal class InternalApp
     {
         /// <summary>
         /// 应用服务
         /// </summary>
-        internal static IServiceCollection InternalServices;
+        internal static IServiceCollection Services;
 
         /// <summary>
         /// 根服务
@@ -24,17 +24,17 @@ namespace YusX.Core
         /// <summary>
         /// 配置对象
         /// </summary>
-        internal static IConfiguration Configuration;
+        internal static IConfiguration Config;
 
         /// <summary>
         /// Web 主机环境
         /// </summary>
-        internal static IWebHostEnvironment WebHostEnvironment;
+        internal static IWebHostEnvironment WebHostEnv;
 
         /// <summary>
         /// 通用主机环境
         /// </summary>
-        internal static IHostEnvironment HostEnvironment;
+        internal static IHostEnvironment HostEnv;
 
         /// <summary>
         /// 配置 YusX 框架(Web主机)
@@ -49,7 +49,7 @@ namespace YusX.Core
                 webBuilder.ConfigureAppConfiguration((hostContext, configurationBuilder) =>
                 {
                     // 存储环境对象
-                    HostEnvironment = WebHostEnvironment = hostContext.HostingEnvironment;
+                    HostEnv = WebHostEnv = hostContext.HostingEnvironment;
                 });
             }
             // 自动装载配置
@@ -59,10 +59,10 @@ namespace YusX.Core
             webBuilder.ConfigureServices((hostContext, services) =>
             {
                 // 存储配置对象
-                Configuration = hostContext.Configuration;
+                Config = hostContext.Configuration;
 
                 // 存储服务提供器
-                InternalServices = services;
+                Services = services;
 
                 // 注册 HttpContextAccessor 服务
                 services.AddHttpContextAccessor();
@@ -82,10 +82,10 @@ namespace YusX.Core
             builder.ConfigureServices((hostContext, services) =>
             {
                 // 存储配置对象
-                Configuration = hostContext.Configuration;
+                Config = hostContext.Configuration;
 
                 // 存储服务提供器
-                InternalServices = services;
+                Services = services;
             });
         }
 
@@ -98,7 +98,7 @@ namespace YusX.Core
             builder.ConfigureAppConfiguration((hostContext, configurationBuilder) =>
             {
                 // 存储环境对象
-                HostEnvironment = hostContext.HostingEnvironment;
+                HostEnv = hostContext.HostingEnvironment;
             });
         }
     }
